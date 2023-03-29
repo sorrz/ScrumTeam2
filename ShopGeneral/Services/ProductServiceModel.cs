@@ -13,5 +13,4 @@ public class ProductServiceModel
     public int Price { get; set; }
     public int BasePrice { get; set; }
     public DateTime AddedUtc { get; set; }
-
 }

@@ -8,5 +8,4 @@ public class CurrentCustomerContext
     public string Email { get; set; }
 
     public List<Agreement> Agreements { get; set; }
-
 }

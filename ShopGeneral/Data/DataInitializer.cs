@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Bogus.DataSets;
+using HtmlAgilityPack;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,10 +8,11 @@ namespace ShopGeneral.Data;
 
 public class DataInitializer
 {
+    private static string fontawsomelistHtml;
     private readonly ApplicationDbContext _context;
     private readonly UserManager<IdentityUser> _userManager;
-    Random rand = new Random();
-    private readonly List<int> carImages = new List<int>();
+    private readonly List<int> carImages = new();
+    private readonly Random rand = new();
 
     public DataInitializer(ApplicationDbContext context, UserManager<IdentityUser> userManager)
     {
@@ -30,23 +32,23 @@ public class DataInitializer
 
     private void SeedUserAgreements()
     {
-        if (Queryable.Any<UserAgreements>(_context.UserAgreements)) return;
+        if (_context.UserAgreements.Any()) return;
         _context.UserAgreements.Add(new UserAgreements
         {
             Email = "stefan.holmberg@customer.systementor.se",
-            Agreement = Queryable.First<Agreement>(_context.Agreements, e=>e.Name == "Nacka kommun")
+            Agreement = _context.Agreements.First(e => e.Name == "Nacka kommun")
         });
         _context.UserAgreements.Add(new UserAgreements
         {
             Email = "stefan.holmberg@vipcustomer.systementor.se",
-            Agreement = Queryable.First<Agreement>(_context.Agreements, e => e.Name == "Hederlige Harry Superdeal")
+            Agreement = _context.Agreements.First(e => e.Name == "Hederlige Harry Superdeal")
         });
         _context.SaveChanges();
     }
 
     private void SeedAgreements()
     {
-        if (Queryable.Any<Agreement>(_context.Agreements)) return;
+        if (_context.Agreements.Any()) return;
 
         _context.Agreements.Add(new Agreement
         {
@@ -56,12 +58,12 @@ public class DataInitializer
             Name = "Nacka kommun",
             AgreementRows = new List<AgreementRow>
             {
-                new AgreementRow
+                new()
                 {
                     CategoryMatch = "van",
-                    PercentageDiscount = 6,
+                    PercentageDiscount = 6
                 },
-                new AgreementRow
+                new()
                 {
                     ProductMatch = "hybrid",
                     PercentageDiscount = 5
@@ -78,12 +80,12 @@ public class DataInitializer
             Name = "Hederlige Harry Superdeal",
             AgreementRows = new List<AgreementRow>
             {
-                new AgreementRow
+                new()
                 {
                     CategoryMatch = "volvo",
                     PercentageDiscount = 10
                 },
-                new AgreementRow
+                new()
                 {
                     ProductMatch = "hybrid",
                     PercentageDiscount = 4
@@ -91,23 +93,21 @@ public class DataInitializer
             }
         });
         _context.SaveChanges();
-
-
     }
 
 
     private void SeedProducts()
     {
-        if (Queryable.Any<Product>(_context.Products)) return;
+        if (_context.Products.Any()) return;
 
 
-        for (int i = 0; i < 100; i++)
+        for (var i = 0; i < 100; i++)
         {
             var vehicle = new Faker<Vehicle>().Generate();
             var product = new Product();
-            
+
             product.Name = vehicle.Model() + " " + vehicle.Fuel();
-            
+
             var categoryName = vehicle.Type();
             var category = _context.Categories.FirstOrDefault(e => e.Name == categoryName);
             if (category == null)
@@ -119,6 +119,7 @@ public class DataInitializer
                 };
                 _context.Categories.Add(category);
             }
+
             product.Category = category;
 
             var manufacturerName = vehicle.Manufacturer();
@@ -142,15 +143,13 @@ public class DataInitializer
 
 
             var url = GetCarImage();
-            
+
             product.ImageUrl = url;
             _context.Products.Add(product);
             _context.SaveChanges();
         }
-
     }
 
-    private static string fontawsomelistHtml;
     private string GetFaIcon()
     {
         if (string.IsNullOrEmpty(fontawsomelistHtml))
@@ -159,20 +158,12 @@ public class DataInitializer
             fontawsomelistHtml = httpClient.GetStringAsync("https://fontawesome.bootstrapcheatsheets.com/").Result;
         }
 
-        var doc = new HtmlAgilityPack.HtmlDocument();
+        var doc = new HtmlDocument();
         doc.LoadHtml(fontawsomelistHtml);
         var allIcons = doc.DocumentNode.SelectNodes("//span[@class='fa-class']");
         return allIcons[rand.Next(0, allIcons.Count)].InnerText.Substring(1);
-
     }
 
-    private class JsonImg
-    {
-        public string File { get; set; } 
-    }
-
-
-    
 
     public void Shuffle(List<int> list)
     {
@@ -184,13 +175,14 @@ public class DataInitializer
             (list[k], list[n]) = (list[n], list[k]);
         }
     }
+
     private string GetCarImage()
     {
         //Some trouble with Faker implementation made me write my own
 
         if (!carImages.Any())
         {
-            for(int i = 1; i <= 209; i++) carImages.Add(i);
+            for (var i = 1; i <= 209; i++) carImages.Add(i);
             Shuffle(carImages);
         }
 
@@ -201,10 +193,10 @@ public class DataInitializer
 
     private void SeedUsers()
     {
-        AddUserIfNotExists(_userManager, "stefan.holmberg@systementor.se", "Hejsan123#", new string[] { "Admin" });
-        AddUserIfNotExists(_userManager, "stefan.holmberg@customer.systementor.se", "Hejsan123#", new string[] { "Customer" });
-        AddUserIfNotExists(_userManager, "stefan.holmberg@vipcustomer.systementor.se", "Hejsan123#", new string[] { "Customer" });
-
+        AddUserIfNotExists(_userManager, "stefan.holmberg@systementor.se", "Hejsan123#", new[] { "Admin" });
+        AddUserIfNotExists(_userManager, "stefan.holmberg@customer.systementor.se", "Hejsan123#", new[] { "Customer" });
+        AddUserIfNotExists(_userManager, "stefan.holmberg@vipcustomer.systementor.se", "Hejsan123#",
+            new[] { "Customer" });
     }
 
 
@@ -227,16 +219,14 @@ public class DataInitializer
     private void SeedRoles()
     {
         var role = _context.Roles.FirstOrDefault(r => r.Name == "Admin");
-        if (role == null)
-        {
-            _context.Roles.Add(new IdentityRole { Name = "Admin", NormalizedName = "Admin" });
-        }
+        if (role == null) _context.Roles.Add(new IdentityRole { Name = "Admin", NormalizedName = "Admin" });
         role = _context.Roles.FirstOrDefault(r => r.Name == "Customer");
-        if (role == null)
-        {
-            _context.Roles.Add(new IdentityRole { Name = "Customer", NormalizedName = "Customer" });
-        }
+        if (role == null) _context.Roles.Add(new IdentityRole { Name = "Customer", NormalizedName = "Customer" });
         _context.SaveChanges();
     }
 
+    private class JsonImg
+    {
+        public string File { get; set; }
+    }
 }

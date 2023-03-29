@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopGeneral.Data;
@@ -15,6 +14,7 @@ public class BaseController : Controller
     {
         _context = context;
     }
+
     protected CurrentCustomerContext GetCurrentCustomerContext()
     {
         if (!User.Identity.IsAuthenticated) return null;
@@ -22,13 +22,12 @@ public class BaseController : Controller
         var email = User.FindFirstValue(ClaimTypes.Email);
         return new CurrentCustomerContext
         {
-            Email = email, 
+            Email = email,
             UserId = Guid.Parse(userId),
             Agreements = _context
                 .UserAgreements.Include(e => e.Agreement)
                 .ThenInclude(e => e.AgreementRows)
-                .Where(e => e.Email == email).Select(e=>e.Agreement).ToList()
-
+                .Where(e => e.Email == email).Select(e => e.Agreement).ToList()
         };
     }
 }

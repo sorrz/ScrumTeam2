@@ -10,7 +10,7 @@
         <div class="col-md-4 col-xs-6">
             <div class="shop">
                 <div class="shop-img" style="text-align: right;height: 130px">
-                    <i class="fa @c.Icon" style="padding: 10px;font-size: 110px;"  ></i>
+                    <i class="fa @c.Icon" style="padding: 10px;font-size: 110px;"></i>
                 </div>
                 <div class="shop-body" style="height: 130px">
                     <h3>@c.Name<br>Collection</h3>
@@ -18,10 +18,8 @@
                 </div>
             </div>
         </div>
-
     }
 </div>
-
 
 
 <div class="row">
@@ -29,13 +27,7 @@
     <div class="gallery">
         @foreach (var c in Model.NewProducts)
         {
-            <partial name="_ProductBox" model="@c" />
+            <partial name="_ProductBox" model="@c"/>
         }
     </div>
 </div>
-
-
-
-
-
-

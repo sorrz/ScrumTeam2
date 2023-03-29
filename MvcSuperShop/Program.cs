@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MvcSuperShop.Infrastructure.Profiles;
 using ShopGeneral.Data;
+using ShopGeneral.Infrastructure.Profiles;
 using ShopGeneral.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +24,7 @@ builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IPricingService, PricingService>();
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddAutoMapper(typeof(ShopGeneral.Infrastructure.Profiles.ProductProfile));
+builder.Services.AddAutoMapper(typeof(ProductProfile));
 
 var app = builder.Build();
 
@@ -55,8 +55,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    "default",
+    "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();
