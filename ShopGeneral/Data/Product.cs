@@ -11,5 +11,5 @@ public class Product
 
     public int BasePrice { get; set; }
     public DateTime AddedUtc { get; set; }
-    [MaxLength(100)]public string ImageUrl { get; set; }
+    [MaxLength(100)] public string ImageUrl { get; set; }
 }

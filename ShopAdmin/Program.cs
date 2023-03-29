@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ShopGeneral.Data;
 using ShopGeneral.Services;
-using Microsoft.EntityFrameworkCore;
 
 var builder = ConsoleApp.CreateBuilder(args);
 builder.ConfigureServices((ctx, services) =>
@@ -43,4 +43,3 @@ app.Run();
 //verify all product images exists 
 //report categories without products
 //report  
-

@@ -1,7 +1,5 @@
-﻿namespace ShopGeneral
-{
-    public class Class1
-    {
+﻿namespace ShopGeneral;
 
-    }
+public class Class1
+{
 }

@@ -9,5 +9,4 @@ public class Manufacturer
 
     [MaxLength(50)] public string Icon { get; set; }
     [MaxLength(150)] public string EmailReport { get; set; }
-
 }

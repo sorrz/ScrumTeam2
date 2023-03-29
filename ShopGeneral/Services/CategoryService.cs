@@ -10,6 +10,7 @@ public class CategoryService : ICategoryService
     {
         _context = context;
     }
+
     public IEnumerable<Category> GetTrendingCategories(int cnt)
     {
         return _context.Categories.Take(cnt);
