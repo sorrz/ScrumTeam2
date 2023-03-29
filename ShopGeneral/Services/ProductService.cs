@@ -25,4 +25,11 @@ public  class ProductService : IProductService
             .OrderByDescending(e => e.AddedUtc)
             .Take(cnt)), context);
     }
+
+    public List<Product> GetAllProducts()
+    {
+        List<Product> _list = new();
+        _list = _context.Products.OrderBy(x => x.Name).ToList();
+        return _list;
+    }
 }
