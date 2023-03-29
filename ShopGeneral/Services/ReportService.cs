@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ShopGeneral.Services
 {
-    internal class ReportService : IReportService
+    public class ReportService : IReportService
     {
         public string JsonProductReport(List<Product> products)
         {
-            throw new NotImplementedException();
+            return "HelloWorld";
         }
     }
 }
