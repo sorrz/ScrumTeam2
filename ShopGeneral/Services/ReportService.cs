@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace ShopGeneral.Services
 {
-    internal class ReportService : IReportService
+    public class ReportService : IReportService
     {
         public string JsonProductReport(List<Product> products)
         {
@@ -25,7 +25,7 @@ namespace ShopGeneral.Services
             complete.Merge(data);
             return complete.ToString();
 
-            //return JsonObject;
+            return JsonObject;
         }
 
         /*
