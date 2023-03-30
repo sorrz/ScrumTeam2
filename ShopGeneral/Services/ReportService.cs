@@ -5,8 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
+//using System.Text.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ShopGeneral.Services
 {
@@ -14,18 +15,10 @@ namespace ShopGeneral.Services
     {
         public string JsonProductReport(List<Product> products)
         {
+            var newtonCompleteJson = JsonConvert.SerializeObject(new { Products = products, Total = products.Count, Skip = 0m, Limit = 0 });
 
-            var json = JsonSerializer.Serialize<List<ShopGeneral.Data.Product>>(products);
-            var data = JsonSerializer.Serialize(new { Total = products.Count, Skip = 0m, Limit = 0 });
-            var complete = JsonSerializer.Serialize(json + data);
-            return complete;
+            return newtonCompleteJson;
         }
-
-        /*
-          "total": 100,
-          "skip": 0,
-          "limit": 30
-        */
 
     }
 }
