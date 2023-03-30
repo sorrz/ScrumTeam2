@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Humanizer;
 using ShopGeneral.Services;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,25 @@ namespace ShopAdmin.Commands
                 streamWriter.Write(report);
             }
 
+        }
+
+        public void VerifyimageTest()
+        {
+            var faltyImageProducts = _productService.VerifyProductImages();
+
+            var folderPath = Path.Combine("outfiles", "products");
+
+            var fullFilePath = Path.Combine(folderPath, "missingimages-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
+
+            Directory.CreateDirectory(folderPath);
+
+            using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
+            {
+                foreach (var product in faltyImageProducts.Result)
+                {
+                    streamWriter.WriteLine(product.Id);
+                }
+            }
         }
     }
 }
