@@ -9,6 +9,7 @@ namespace ShopGeneral.Services
 {
     public interface IReportService
     {
-        public string JsonProductReport(List<Product> products);
+        public string JsonReport(List<Product> products);
+        public string JsonReport(List<string> strings);
     }
 }

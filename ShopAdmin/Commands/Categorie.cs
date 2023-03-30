@@ -1,39 +1,32 @@
-﻿using Bogus;
-using ShopGeneral.Services;
+﻿using ShopGeneral.Services;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ShopAdmin.Commands
 {
-    public class Product : ConsoleAppBase
+    public class Categorie : ConsoleAppBase
     {
         private readonly IProductService _productService;
         private readonly IReportService _reportService;
 
-        public Product(IProductService productService, IReportService reportService)
+        public Categorie(IProductService productService, IReportService reportService)
         {
             _productService = productService;
             _reportService = reportService;
         }
 
-        public void Export(string to)
+        public void Checkempty()
         {
-            var listOfProducts = _productService.GetAllProductsOrDefault();
+            var result = _productService.CheckCategories();
+            var report = _reportService.JsonReport(result);
 
-            var report = _reportService.JsonReport(listOfProducts);
 
-
-            var folderPath = Path.Combine("outfiles", to);
-
-            var fullFilePath = Path.Combine(folderPath, DateTime.Now.ToString("yyyyMMdd") + ".txt");
-
+            var folderPath = Path.Combine("outfiles\\category\\");
+            var fullFilePath = Path.Combine(folderPath, "missingproducts-", DateTime.Now.ToString("yyyyMMdd") + ".txt");
             Directory.CreateDirectory(folderPath);
-
 
             using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
             {
