@@ -101,7 +101,7 @@ namespace ShopGeneralTests.Services
             var result = _sut.CheckCategories();
 
             //ASS
-            Assert.AreEqual(c3.Name, result[0].ToString());
+            Assert.AreEqual(c3.Name, result[0].Name.ToString());
             
         }
 
