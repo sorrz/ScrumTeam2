@@ -30,8 +30,10 @@ public class ProductService : IProductService
     public List<Product> GetAllProductsOrDefault()
     {
         List<Product> _list = new();
-        _list = _context.Products.OrderBy(x => x.Name).ToList();
-        if (_list != null && _list.Count > 1) return _list;
-        return null;
+        _list = _context.Products.Local.OrderBy(x => x.Name).ToList();
+        return _list;
     }
+
+
 }
+
