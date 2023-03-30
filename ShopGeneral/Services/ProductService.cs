@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Context;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ShopGeneral.Services;
 
@@ -29,9 +31,19 @@ public class ProductService : IProductService
 
     public List<Product> GetAllProductsOrDefault() => _context.Products.OrderBy(x => x.Name).ToList();
 
-    public List<Category> CheckCategories()
+    public List<string> CheckCategories()
     {
-        throw new NotImplementedException();
+        // Get all Categories, sorted after Name
+        var categoryList = _context.Categories.OrderBy(y=>y.Name).ToList();
+        // Get all Products, sorted after Category Name
+        var productList = _context.Products.OrderBy(x => x.Category.Name).ToList();
+        // Get the Distinct Lists of the Names
+        var distinctProductList = productList.Select(z=>z.Category.Name).Distinct().ToList();
+        var distinctCategoryList = categoryList.Select(z => z.Name).Distinct().ToList();
+        // See what Category Name are not matched with a Product.Category.Name
+        var result = distinctCategoryList.Except(distinctProductList).ToList();
+
+        return result;
     }
 }
 

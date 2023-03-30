@@ -20,9 +20,8 @@ namespace ShopAdmin.Commands
 
         public void Checkempty()
         {
-            var listOfProducts = _productService.CheckCategories();
-
-            var report = _reportService.JsonProductReport(listOfProducts);
+            var result = _productService.CheckCategories();
+            var report = _reportService.JsonReport(result);
 
 
             var folderPath = Path.Combine("outfiles\\category\\");

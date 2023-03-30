@@ -25,7 +25,7 @@ namespace ShopAdmin.Commands
         {
             var listOfProducts = _productService.GetAllProductsOrDefault();
 
-            var report = _reportService.JsonProductReport(listOfProducts);
+            var report = _reportService.JsonReport(listOfProducts);
 
 
             var folderPath = Path.Combine("outfiles", to);
