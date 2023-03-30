@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AutoFixture;
+using AutoMapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -15,7 +16,6 @@ namespace ShopGeneralTests.Services
         private ApplicationDbContext context;
         private Mock<IMapper> _mapper;
         private Mock<IPricingService> _pricingService;
-
 
         public ProductServiceTests()
         {
@@ -41,11 +41,23 @@ namespace ShopGeneralTests.Services
         [TestMethod]
         public void Should_Return_Correct_Count()
         {
+
+
             //ARR
-            context.Products.Add(new Product { Id = 1, Name = "Volvo", ImageUrl = "..." });
-            context.Products.Add(new Product { Id = 2, Name = "Ford", ImageUrl = "..." });
-            context.Products.Add(new Product { Id = 3, Name = "Alpha Romeo", ImageUrl = "..." });
-            context.SaveChangesAsync();
+            Fixture fixture = new Fixture();
+            Product p1 = fixture.Create<Product>();
+            Product p2 = fixture.Create<Product>();
+            Product p3 = fixture.Create<Product>();
+
+            p1.Name = "Volvo";
+            p2.Name = "Ford";
+            p3.Name = "Alpha Romeo";
+
+            context.Products.Add(p1);
+            context.Products.Add(p2);
+            context.Products.Add(p3);
+
+            context.SaveChanges();
 
             //ACT
             var result = _sut.GetAllProductsOrDefault();

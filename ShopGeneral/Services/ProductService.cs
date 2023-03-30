@@ -27,12 +27,8 @@ public class ProductService : IProductService
             .Take(cnt)), context);
     }
 
-    public List<Product> GetAllProductsOrDefault()
-    {
-        List<Product> _list = new();
-        _list = _context.Products.Local.OrderBy(x => x.Name).ToList();
-        return _list;
-    }
+    public List<Product> GetAllProductsOrDefault() => _context.Products.OrderBy(x => x.Name).ToList();
+    
 
 
 }
