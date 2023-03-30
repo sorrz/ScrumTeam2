@@ -7,5 +7,5 @@ public interface IProductService
 {
     public IEnumerable<ProductServiceModel> GetNewProducts(int cnt, CurrentCustomerContext context);
     public List<Product> GetAllProductsOrDefault();
-    public List<string> CheckCategories();
+    public List<Category> CheckCategories();
 }

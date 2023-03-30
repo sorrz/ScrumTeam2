@@ -25,7 +25,7 @@ namespace ShopAdmin.Commands
 
 
             var folderPath = Path.Combine("outfiles\\category\\");
-            var fullFilePath = Path.Combine(folderPath, "missingproducts-", DateTime.Now.ToString("yyyyMMdd") + ".txt");
+            var fullFilePath = Path.Combine(folderPath, "missingproducts-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
             Directory.CreateDirectory(folderPath);
 
             using (StreamWriter streamWriter = new StreamWriter(fullFilePath))

@@ -26,7 +26,13 @@ namespace ShopGeneral.Services
             var newtonCompleteJson = JsonConvert.SerializeObject(new { strings });
             return newtonCompleteJson;
         }
-        
+
+        public string JsonReport(List<Category> categories)
+        {
+            var newtonCompleteJson = JsonConvert.SerializeObject(new { UnusedCategories = categories });
+            return newtonCompleteJson;
+        }
+
 
     }
 }
