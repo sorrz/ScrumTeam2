@@ -28,8 +28,10 @@ public class ProductService : IProductService
     }
 
     public List<Product> GetAllProductsOrDefault() => _context.Products.OrderBy(x => x.Name).ToList();
-    
 
-
+    public List<Category> CheckCategories()
+    {
+        throw new NotImplementedException();
+    }
 }
 
