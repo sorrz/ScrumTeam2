@@ -34,7 +34,7 @@ public class ProductService : IProductService
     
     public async Task<List<Product>> VerifyProductImages()
     {
-
+        //
         var products = _context.Products.ToList();
         List<Product> productImageNotFound = new();
         _httpClient = new HttpClient();
