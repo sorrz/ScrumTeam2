@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using ShopGeneral.Data;
@@ -11,44 +12,42 @@ namespace ShopGeneralTests.Services
     public class ProductServiceTests
     {
         private ProductService _sut;
-        private Mock<ApplicationDbContext> _context2;
+        private ApplicationDbContext context;
         private Mock<IMapper> _mapper;
         private Mock<IPricingService> _pricingService;
-        private DbContextOptions<ApplicationDbContext> _dbContextOptions;
 
 
         public ProductServiceTests()
         {
-            _dbContextOptions = new DbContextOptions<ApplicationDbContext>();
-            _context2 = new Mock<ApplicationDbContext>(_dbContextOptions);
             _mapper = new Mock<IMapper>();
             _pricingService = new Mock<IPricingService>();
-            _sut = new ProductService(_context2.Object, _pricingService.Object, _mapper.Object);
         }
 
-        // https://learn.microsoft.com/en-us/ef/ef6/fundamentals/testing/mocking
 
+        [TestInitialize]
+        public void Init()
+        {
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+            var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlite(connection)
+                .Options;
+            context = new ApplicationDbContext(contextOptions);
+            context.Database.EnsureCreated();
+
+            _sut = new ProductService(context, _pricingService.Object, _mapper.Object);
+        }
 
         [TestMethod]
         public void Should_Return_Correct_Count()
         {
             //ARR
-            var data = new List<Product>
-            {
-                new Product { Name = "Ford" },
-                new Product { Name = "Alpha Romeo" },
-                new Product { Name = "Volvo" },
-            }.AsQueryable();
-
-            var mockSet = new Mock<DbSet<Product>>();
-            mockSet.As<IQueryable<Product>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<Product>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Product>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Product>>().Setup(m => m.GetEnumerator()).Returns(() => data.GetEnumerator());
+            context.Products.Add(new Product { Id = 1, Name = "Volvo", ImageUrl = "..." });
+            context.Products.Add(new Product { Id = 2, Name = "Ford", ImageUrl = "..." });
+            context.Products.Add(new Product { Id = 3, Name = "Alpha Romeo", ImageUrl = "..." });
+            context.SaveChangesAsync();
 
             //ACT
-            // THROWS ERROR ! System.NotSupportedException: Unsupported expression: c => c.Products
-            _context2.Setup(c => c.Products).Returns(mockSet.Object);
             var result = _sut.GetAllProductsOrDefault();
             
             //ASS
