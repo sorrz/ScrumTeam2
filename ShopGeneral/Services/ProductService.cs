@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Context;
-using System.Security.Cryptography.X509Certificates;
 
 namespace ShopGeneral.Services;
 
@@ -34,7 +32,7 @@ public class ProductService : IProductService
     public List<Category> CheckCategories()
     {
         // Get all Categories, sorted after Name
-        var categoryList = _context.Categories.OrderBy(y=>y.Name).ToList();
+        var categoryList = _context.Categories.OrderBy(y => y.Name).ToList();
         // Get all Products, sorted after Category Name
         var productList = _context.Products.OrderBy(x => x.Category.Name).ToList();
         // Get the Distinct Lists of the Names
