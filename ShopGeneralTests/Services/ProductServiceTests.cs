@@ -39,7 +39,7 @@ namespace ShopGeneralTests.Services
         }
 
         [TestMethod]
-        public void Should_Return_Correct_Count()
+        public void Should_Return_Correct_Count_and_Sorting()
         {
 
 
@@ -72,7 +72,7 @@ namespace ShopGeneralTests.Services
         }
 
         [TestMethod]
-        public void CheckCategories_Should_Return_a_CategoryName()
+        public void CheckCategories_Should_Return_c3_CategoryName()
         {
             //ARR
             Fixture fixture = new Fixture();
