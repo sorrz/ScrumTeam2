@@ -22,6 +22,7 @@ namespace ShopAdmin.Commands
 
         public void Export(string to)
         {
+            //Need to return to for testing and probably adjust/change after the VerifiProductImages() and such is done.
             var listOfMissingImages = _productService.VerifyProductImages();
             var report = _reportService.JsonProductReport(listOfMissingImages);
 
