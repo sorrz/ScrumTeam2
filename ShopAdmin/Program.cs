@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ShopGeneral.Data;
+using ShopGeneral.Infrastructure.Profiles;
 using ShopGeneral.Services;
 
 var builder = ConsoleApp.CreateBuilder(args);
@@ -20,6 +21,11 @@ builder.ConfigureServices((ctx, services) =>
 
 
     services.AddTransient<IAgreementService, AgreementService>();
+    services.AddTransient<IReportService, ReportService>();
+    services.AddTransient<IPricingService, PricingService>();
+    services.AddTransient<IProductService, ProductService>();
+    services.AddAutoMapper(typeof(Program));
+    services.AddAutoMapper(typeof(ProductProfile));
     services.AddTransient<DataInitializer>();
     // Using Cysharp/ZLogger for logging to file
     //services.AddLogging(logging =>

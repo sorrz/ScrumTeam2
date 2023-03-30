@@ -27,11 +27,9 @@ public class ProductService : IProductService
             .Take(cnt)), context);
     }
 
-    public List<Product> GetAllProductsOrDefault()
-    {
-        List<Product> _list = new();
-        _list = _context.Products.OrderBy(x => x.Name).ToList();
-        if (_list != null && _list.Count > 1) return _list;
-        return null;
-    }
+    public List<Product> GetAllProductsOrDefault() => _context.Products.OrderBy(x => x.Name).ToList();
+    
+
+
 }
+

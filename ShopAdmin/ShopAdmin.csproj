@@ -7,9 +7,11 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
+
     <ItemGroup>
-        <None Remove="appsettings.Development.json"/>
-        <None Remove="appsettings.json"/>
+        <None Remove="appsettings.Development.json" />
+        <None Remove="appsettings.json" />
     </ItemGroup>
 
     <ItemGroup>
@@ -26,14 +28,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ConsoleAppFramework" Version="4.2.4"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0"/>
+        <PackageReference Include="ConsoleAppFramework" Version="4.2.4" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\MvcSuperShop\MvcSuperShop.csproj"/>
+        <ProjectReference Include="..\MvcSuperShop\MvcSuperShop.csproj" />
     </ItemGroup>
 
 </Project>
