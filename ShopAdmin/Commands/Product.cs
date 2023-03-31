@@ -1,3 +1,4 @@
+﻿using ShopGeneral.Services;
 ﻿using Bogus;
 using Humanizer;
 using ShopGeneral.Services;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+
 
 namespace ShopAdmin.Commands
 {
@@ -26,7 +28,7 @@ namespace ShopAdmin.Commands
         {
             var listOfProducts = _productService.GetAllProductsOrDefault();
 
-            var report = _reportService.JsonProductReport(listOfProducts);
+            var report = _reportService.JsonReport(listOfProducts);
 
 
             var folderPath = Path.Combine("outfiles", to);

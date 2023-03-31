@@ -24,6 +24,7 @@ builder.ConfigureServices((ctx, services) =>
     services.AddTransient<IReportService, ReportService>();
     services.AddTransient<IPricingService, PricingService>();
     services.AddTransient<IProductService, ProductService>();
+    services.AddTransient<ICategoryService, CategoryService>(); // ? 
     services.AddAutoMapper(typeof(Program));
     services.AddAutoMapper(typeof(ProductProfile));
     services.AddTransient<DataInitializer>();
