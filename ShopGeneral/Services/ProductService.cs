@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Context;
+using System.Net;
 
 namespace ShopGeneral.Services;
 
@@ -10,6 +11,8 @@ public class ProductService : IProductService
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
     private readonly IPricingService _pricingService;
+    public static HttpClient _httpClient;
+    public static HttpMessageHandler? Handler { get; set; }
 
     public ProductService(ApplicationDbContext context, IPricingService pricingService, IMapper mapper)
     {
@@ -29,7 +32,36 @@ public class ProductService : IProductService
 
     public List<Product> GetAllProductsOrDefault() => _context.Products.OrderBy(x => x.Name).ToList();
     
+    public async Task<List<int>> VerifyProductImages()
+    {
+        //
+        var products = _context.Products.ToList();
+        List<int> productImageNotFound = new();
+        _httpClient = new HttpClient();
 
+        if (Handler is not null)
+        {
+            _httpClient = new HttpClient(Handler);
+        }
+
+        foreach (var product in products)
+        {
+            try
+            {
+                using (var response = await _httpClient.GetAsync(product.ImageUrl)) {
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                        productImageNotFound.Add(product.Id);
+                }
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+        }
+        return productImageNotFound;
+    }
 
 }
 

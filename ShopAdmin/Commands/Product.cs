@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Humanizer;
 using ShopGeneral.Services;
 using System;
 using System.Collections.Generic;
@@ -41,5 +42,42 @@ namespace ShopAdmin.Commands
             }
 
         }
+
+        public void Verifyimage()
+        {
+            //Need to return to for testing and probably adjust/change after the VerifiProductImages() and such is done.
+            var listOfMissingImages = _productService.VerifyProductImages();
+            var report = _reportService.JsonReport(listOfMissingImages.Result);
+
+            var folderPath = Path.Combine("outfiles", "products");
+            var fullFilePath = Path.Combine(folderPath,"missingimages-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
+
+            Directory.CreateDirectory(folderPath);
+
+            using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
+            {
+                streamWriter.Write(report);
+            }
+
+        }
+
+        //public void VerifyimageTest()
+        //{
+        //    var faltyImageProducts = _productService.VerifyProductImages();
+
+        //    var folderPath = Path.Combine("outfiles", "products");
+
+        //    var fullFilePath = Path.Combine(folderPath, "missingimages-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
+
+        //    Directory.CreateDirectory(folderPath);
+
+        //    using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
+        //    {
+        //        foreach (var product in faltyImageProducts.Result)
+        //        {
+        //            streamWriter.WriteLine(product.Id);
+        //        }
+        //    }
+        //}
     }
 }
