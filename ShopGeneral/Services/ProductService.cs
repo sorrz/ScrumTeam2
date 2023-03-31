@@ -32,11 +32,11 @@ public class ProductService : IProductService
 
     public List<Product> GetAllProductsOrDefault() => _context.Products.OrderBy(x => x.Name).ToList();
     
-    public async Task<List<Product>> VerifyProductImages()
+    public async Task<List<int>> VerifyProductImages()
     {
         //
         var products = _context.Products.ToList();
-        List<Product> productImageNotFound = new();
+        List<int> productImageNotFound = new();
         _httpClient = new HttpClient();
 
         if (Handler is not null)
@@ -50,7 +50,7 @@ public class ProductService : IProductService
             {
                 using (var response = await _httpClient.GetAsync(product.ImageUrl)) {
                     if (response.StatusCode == HttpStatusCode.NotFound)
-                        productImageNotFound.Add(product);
+                        productImageNotFound.Add(product.Id);
                 }
                 
             }

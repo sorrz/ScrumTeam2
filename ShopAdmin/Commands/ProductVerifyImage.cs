@@ -24,7 +24,7 @@ namespace ShopAdmin.Commands
         {
             //Need to return to for testing and probably adjust/change after the VerifiProductImages() and such is done.
             var listOfMissingImages = _productService.VerifyProductImages();
-            var report = _reportService.JsonProductReport(listOfMissingImages);
+            var report = _reportService.JsonReport(listOfMissingImages);
 
             var folderPath = Path.Combine("outfiles", to);
             var fullFilePath = Path.Combine(folderPath, DateTime.Now.ToString("yyyyMMdd") + ".txt");
