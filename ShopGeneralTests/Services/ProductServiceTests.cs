@@ -1,11 +1,12 @@
-﻿using AutoFixture;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AutoFixture;
 using AutoMapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using ShopGeneral.Data;
 using ShopGeneral.Services;
-
+using Moq.Protected;
 
 namespace ShopGeneralTests.Services
 {
@@ -16,6 +17,7 @@ namespace ShopGeneralTests.Services
         private ApplicationDbContext context;
         private Mock<IMapper> _mapper;
         private Mock<IPricingService> _pricingService;
+        private Mock<HttpMessageHandler> _msgHandler;
 
         public ProductServiceTests()
         {
@@ -27,6 +29,8 @@ namespace ShopGeneralTests.Services
         [TestInitialize]
         public void Init()
         {
+            _msgHandler = new Mock<HttpMessageHandler>();
+
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -102,9 +106,20 @@ namespace ShopGeneralTests.Services
 
             //ASS
             Assert.AreEqual(c3.Name, result[0].Name.ToString());
-            
+        }
+        
+        [TestMethod]
+        public void VerifyProductImagesTest()
+        {
+            //ARRANGE
+            var mockProtected = _msgHandler.Protected();
+
+            //ACT
+
+            //ASSERT
+            Assert.Fail();
+
         }
 
-        
     }
 }
