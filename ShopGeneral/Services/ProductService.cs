@@ -11,14 +11,15 @@ public class ProductService : IProductService
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
     private readonly IPricingService _pricingService;
-    public static HttpClient _httpClient;
-    public static HttpMessageHandler? Handler { get; set; }
+    public static HttpClient? _httpClient;
+    public static HttpMessageHandler? _handler { get; set; }
 
-    public ProductService(ApplicationDbContext context, IPricingService pricingService, IMapper mapper)
+    public ProductService(ApplicationDbContext context, IPricingService pricingService, IMapper mapper, HttpMessageHandler handler)
     {
         _context = context;
         _pricingService = pricingService;
         _mapper = mapper;
+        _handler = handler;
     }
 
     public IEnumerable<ProductServiceModel> GetNewProducts(int cnt, CurrentCustomerContext context)
@@ -39,9 +40,9 @@ public class ProductService : IProductService
         List<int> productImageNotFound = new();
         _httpClient = new HttpClient();
 
-        if (Handler is not null)
+        if (_handler is not null)
         {
-            _httpClient = new HttpClient(Handler);
+            _httpClient = new HttpClient(_handler);
         }
 
         foreach (var product in products)
