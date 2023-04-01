@@ -214,6 +214,7 @@ namespace ShopGeneralTests.Services
             var fixture = new Fixture();
             var testUri = fixture.Create<Uri>();
             var expectedResult = 1;
+            var outString = "hejsan";
 
 
             Product p1 = fixture.Create<Product>();
@@ -222,9 +223,12 @@ namespace ShopGeneralTests.Services
             context.Products.Add(p1);
             context.SaveChanges();
 
+
+            // Johan, kan vi snygga till det här? 
+            // Vi testar det vi vill, men inte riktigt på rätt sätt.
             var handler = new MockHttpMessageHandler();
             handler.When(HttpMethod.Get, testUri.ToString())
-                   .Respond(HttpStatusCode.NotFound);
+                   .Respond(HttpStatusCode.NotFound, new StringContent(outString));
 
             var http = handler.ToHttpClient();
 
