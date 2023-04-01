@@ -41,7 +41,7 @@ public class ProductService : IProductService
         var products = _context.Products.ToList();
         List<int> productImageNotFound = new();
         _httpClient = new HttpClient();
-        var _handler = _clientfactory.CreateClient();
+        //var _handler = _clientfactory.CreateClient();
 
         if (_clientfactory is not null)
         {

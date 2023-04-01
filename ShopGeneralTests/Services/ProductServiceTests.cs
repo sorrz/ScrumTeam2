@@ -10,6 +10,7 @@ using Moq.Protected;
 using System.Net;
 using RichardSzalay.MockHttp;
 using System.Net.Http;
+using System.ComponentModel;
 
 namespace ShopGeneralTests.Services
 {
@@ -216,24 +217,31 @@ namespace ShopGeneralTests.Services
             // ARRANGE
             var fixture = new Fixture();
             var testUri = fixture.Create<Uri>();
-            var expectedResult = fixture.Create<string>();
+            var expectedResult = 1;
+
+
+            Product p1 = fixture.Create<Product>();
+            p1.Id = 1;
+            p1.ImageUrl = "http://www.google.se/image00.jpg";
+            context.Products.Add(p1);
+            context.SaveChanges();
 
             var handler = new MockHttpMessageHandler();
             handler.When(HttpMethod.Get, testUri.ToString())
-                   .Respond(HttpStatusCode.OK, new StringContent(expectedResult));
+                   .Respond(HttpStatusCode.NotFound);
 
             var http = handler.ToHttpClient();
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(p => p.CreateClient(It.IsAny<string>())).Returns(http);
 
-            var sut = new Service(mockHttpClientFactory.Object);
+            var sut = new ProductService(context, _pricingService.Object, _mapper.Object, mockHttpClientFactory.Object);
 
             // ACT
-            var result = await sut.GetStringAsync(testUri);
+            var result = await sut.VerifyProductImages();
 
             // ASSERT
-            Assert.AreEqual(expectedResult, result);
+            Assert.AreEqual(expectedResult, result.Count);
         }
 
 
