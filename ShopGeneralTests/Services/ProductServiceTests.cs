@@ -1,16 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoMapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using ShopGeneral.Data;
 using ShopGeneral.Services;
-using Moq.Protected;
 using System.Net;
 using RichardSzalay.MockHttp;
-using System.Net.Http;
-using System.ComponentModel;
 
 namespace ShopGeneralTests.Services
 {
@@ -212,7 +208,7 @@ namespace ShopGeneralTests.Services
             }
         }
         [TestMethod]
-        public async Task GetStringAsync_uses_HttpClient_to_get_content_from_given_URI()
+        public async Task Should_Return_one_failed_instance_of_image_Verification()
         {
             // ARRANGE
             var fixture = new Fixture();
