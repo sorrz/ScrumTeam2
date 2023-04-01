@@ -30,6 +30,7 @@ namespace ShopGeneralTests.Services
 
         public void Init()
         {
+
             //_msgHandler = new Mock<HttpMessageHandler>();
             _mapper = new Mock<IMapper>();
             _pricingService = new Mock<IPricingService>();
@@ -150,48 +151,94 @@ namespace ShopGeneralTests.Services
 
         //}
 
-        [TestMethod]
-        // https://docs.educationsmediagroup.com/unit-testing-csharp/advanced-topics/testing-httpclient
-        public void Should_return_string_from_URI()
+        //[TestMethod]
+        //// https://docs.educationsmediagroup.com/unit-testing-csharp/advanced-topics/testing-httpclient
+        //public void Should_return_string_from_URI()
+        //{
+
+
+        //    // ARRANGE
+        //    var fixture = new Fixture();
+        //    fixture.AddMockHttp();
+        //    var testUri = fixture.Create<Uri>().AbsoluteUri;
+
+        //    // GENERATE CONTENT 
+
+        //    Product p1 = fixture.Create<Product>();
+        //    p1.Id = 1;
+        //    fixture.Inject(new UriScheme("http"));
+        //    p1.ImageUrl = fixture.Create<Uri>().AbsoluteUri;
+        //    context.Products.Add(p1);
+        //    context.SaveChanges();
+
+
+
+        //    // MOCK A NEW MESSAGE HANDLER
+        //    var handler = new MockHttpMessageHandler();
+        //    //handler.When(HttpMethod., testUri.ToString())
+        //    //       .Respond(HttpStatusCode.NotFound);
+
+        //    handler.When(ItExpr.IsAny<HttpRequestOptions>).SendAsync(ItExpr.IsAny<HttpRequestMessage>, ItExpr.IsAny<CancellationToken>());
+
+
+
+        //    var http = handler.ToHttpClient();
+
+        //    _mockHttpClientFactory.Setup(p => p.CreateClient(It.IsAny<string>())).Returns(http);
+
+
+        //    // ACT
+        //    var result = _sut.VerifyProductImages();
+
+        //    // ASSERT
+        //    Assert.AreEqual(1, result.Result[0]);
+
+
+        public class Service
         {
+            private readonly IHttpClientFactory _httpFactory;
 
+            public Service(IHttpClientFactory httpFactory)
+            {
+                _httpFactory = httpFactory ?? throw new ArgumentNullException(nameof(httpFactory));
+            }
 
+            public Task<string> GetStringAsync(Uri uri)
+            {
+                var http = _httpFactory.CreateClient(nameof(Service));
+
+                return http.GetStringAsync(uri);
+            }
+        }
+        [TestMethod]
+        public async Task GetStringAsync_uses_HttpClient_to_get_content_from_given_URI()
+        {
             // ARRANGE
             var fixture = new Fixture();
-            var testUri = fixture.Create<Uri>().AbsoluteUri;
+            var testUri = fixture.Create<Uri>();
+            var expectedResult = fixture.Create<string>();
 
-            // GENERATE CONTENT 
-
-            Product p1 = fixture.Create<Product>();
-            p1.Id = 1;
-            fixture.Inject(new UriScheme("http"));
-            p1.ImageUrl = fixture.Create<Uri>().AbsoluteUri;
-            context.Products.Add(p1);
-            context.SaveChanges();
-
-
-
-            // MOCK A NEW MESSAGE HANDLER
             var handler = new MockHttpMessageHandler();
-            //handler.When(HttpMethod., testUri.ToString())
-            //       .Respond(HttpStatusCode.NotFound);
-
-            handler.When(ItExpr.IsAny<HttpRequestOptions>).SendAsync(ItExpr.IsAny<HttpRequestMessage>, ItExpr.IsAny<CancellationToken>());
-
-
+            handler.When(HttpMethod.Get, testUri.ToString())
+                   .Respond(HttpStatusCode.OK, new StringContent(expectedResult));
 
             var http = handler.ToHttpClient();
 
-            _mockHttpClientFactory.Setup(p => p.CreateClient(It.IsAny<string>())).Returns(http);
+            var mockHttpClientFactory = new Mock<IHttpClientFactory>();
+            mockHttpClientFactory.Setup(p => p.CreateClient(It.IsAny<string>())).Returns(http);
 
+            var sut = new Service(mockHttpClientFactory.Object);
 
             // ACT
-            var result = _sut.VerifyProductImages();
+            var result = await sut.GetStringAsync(testUri);
 
             // ASSERT
-            Assert.AreEqual(1, result.Result[0]);
-
+            Assert.AreEqual(expectedResult, result);
         }
 
+
+
     }
+
 }
+
