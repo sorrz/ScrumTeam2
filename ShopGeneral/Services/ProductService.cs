@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Context;
 using System.Net;
+using System.Net.Http;
 
 namespace ShopGeneral.Services;
 
@@ -12,14 +13,16 @@ public class ProductService : IProductService
     private readonly IMapper _mapper;
     private readonly IPricingService _pricingService;
     public static HttpClient? _httpClient;
-    public static HttpMessageHandler? _handler { get; set; }
+    //public static HttpMessageHandler? _handler;
+    public IHttpClientFactory _clientfactory;
 
-    public ProductService(ApplicationDbContext context, IPricingService pricingService, IMapper mapper, HttpMessageHandler handler)
+    public ProductService(ApplicationDbContext context, IPricingService pricingService, IMapper mapper, IHttpClientFactory clientFactory)
     {
         _context = context;
         _pricingService = pricingService;
         _mapper = mapper;
-        _handler = handler;
+        //_handler = handler;
+        _clientfactory = clientFactory;
     }
 
     public IEnumerable<ProductServiceModel> GetNewProducts(int cnt, CurrentCustomerContext context)
@@ -35,14 +38,14 @@ public class ProductService : IProductService
     
     public async Task<List<int>> VerifyProductImages()
     {
-        //
         var products = _context.Products.ToList();
         List<int> productImageNotFound = new();
         _httpClient = new HttpClient();
+        var _handler = _clientfactory.CreateClient();
 
-        if (_handler is not null)
+        if (_clientfactory is not null)
         {
-            _httpClient = new HttpClient(_handler);
+            _httpClient = new();
         }
 
         foreach (var product in products)
@@ -66,14 +69,14 @@ public class ProductService : IProductService
 
     public List<Category> CheckCategories()
     {
-        // Get all Categories, sorted after Name
         var categoryList = _context.Categories.OrderBy(y => y.Name).ToList();
-        // Get all Products, sorted after Category Name
         var productList = _context.Products.OrderBy(x => x.Category.Name).ToList();
-        // Get the Distinct Lists of the Names
         var result = categoryList.ExceptBy(productList
             .Select(a => a.Category.Name), x => x.Name).ToList();
         return result;
     }
+
+    public List<string> GetAllManufacturerEmails() => _context.Manufacturers.Select(x => x.EmailReport).ToList();
+    
 }
 

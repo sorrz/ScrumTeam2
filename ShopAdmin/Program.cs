@@ -28,6 +28,9 @@ builder.ConfigureServices((ctx, services) =>
     services.AddAutoMapper(typeof(Program));
     services.AddAutoMapper(typeof(ProductProfile));
     services.AddTransient<DataInitializer>();
+    services.AddHttpClient<HttpClient>();
+    //services.AddHttpClient<HttpMessageHandler>();   // Kanske går att flytta?
+    services.AddHttpClient<IHttpClientFactory>();
     // Using Cysharp/ZLogger for logging to file
     //services.AddLogging(logging =>
     //{

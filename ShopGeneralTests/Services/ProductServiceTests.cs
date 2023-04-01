@@ -8,24 +8,33 @@ using ShopGeneral.Data;
 using ShopGeneral.Services;
 using Moq.Protected;
 using System.Net;
+using RichardSzalay.MockHttp;
+using System.Net.Http;
 
 namespace ShopGeneralTests.Services
 {
     [TestClass]
+    //[Ignore]
     public class ProductServiceTests
     {
         private ProductService _sut;
         private ApplicationDbContext context;
         private Mock<IMapper> _mapper;
         private Mock<IPricingService> _pricingService;
-        private Mock<HttpMessageHandler> _msgHandler;
+        //private Mock<HttpMessageHandler> _msgHandler;
+        //private static HttpMessageHandler _handler;
+        private Mock<IHttpClientFactory> _mockHttpClientFactory;
 
         [TestInitialize]
+        //[Ignore]
+
         public void Init()
         {
-            _msgHandler = new Mock<HttpMessageHandler>();
+            //_msgHandler = new Mock<HttpMessageHandler>();
             _mapper = new Mock<IMapper>();
             _pricingService = new Mock<IPricingService>();
+            _mockHttpClientFactory = new Mock<IHttpClientFactory>();
+
 
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
@@ -35,10 +44,12 @@ namespace ShopGeneralTests.Services
             context = new ApplicationDbContext(contextOptions);
             context.Database.EnsureCreated();
 
-            _sut = new ProductService(context, _pricingService.Object, _mapper.Object, _msgHandler.Object);
+            _sut = new ProductService(context, _pricingService.Object, _mapper.Object, _mockHttpClientFactory.Object);
         }
 
         [TestMethod]
+        //[Ignore]
+
         public void Should_Return_Correct_Count_and_Sorting()
         {
             //ARR
@@ -59,7 +70,7 @@ namespace ShopGeneralTests.Services
 
             //ACT
             var result = _sut.GetAllProductsOrDefault();
-            
+
             //ASS
             Assert.AreEqual(3, result.Count);
             Assert.AreEqual("Alpha Romeo", result[0].Name);
@@ -70,6 +81,8 @@ namespace ShopGeneralTests.Services
         }
 
         [TestMethod]
+        //[Ignore]
+
         public void CheckCategories_Should_Return_c3_CategoryName()
         {
             //ARR
@@ -101,12 +114,54 @@ namespace ShopGeneralTests.Services
             //ASS
             Assert.AreEqual(c3.Name, result[0].Name.ToString());
         }
-        
+
+        //[TestMethod]
+        //[Ignore]
+
+        //public void Any_Image_url_should_return_not_found_and_return_product_id_list()
+        //{
+        //    //ARRANGE
+        //    Fixture fixture = new Fixture();
+        //    HttpMessageHandler _handler = fixture.Create<HttpMessageHandler>();
+        //    Product p1 = fixture.Create<Product>();
+        //    p1.Id = 1;
+        //    fixture.Inject(new UriScheme("http"));
+        //    p1.ImageUrl = fixture.Create<Uri>().AbsoluteUri;
+        //    context.Products.Add(p1);
+        //    context.SaveChanges();
+
+        //    //var mockedProtected = _handler.Protected();
+        //    var setupHttpRequest = _handler<HttpResponseMessage>>(
+        //        "SendAsync",
+        //        ItExpr.IsAny<HttpRequestMessage>(),
+        //        ItExpr.IsAny<CancellationToken>()
+        //        );
+        //    var httpMockedResponse =
+        //        setupHttpRequest.ReturnsAsync(new HttpResponseMessage()
+        //        {
+        //            StatusCode = HttpStatusCode.NotFound
+        //        });
+
+        //    //ACT
+        //    var result = _sut.VerifyProductImages();
+
+        //    //ASSERT
+        //    Assert.AreEqual(1, result.Result[0]);
+
+        //}
+
         [TestMethod]
-        public void Any_Image_url_should_return_not_found_and_return_product_id_list()
+        // https://docs.educationsmediagroup.com/unit-testing-csharp/advanced-topics/testing-httpclient
+        public void Should_return_string_from_URI()
         {
-            //ARRANGE
-            Fixture fixture = new Fixture();
+
+
+            // ARRANGE
+            var fixture = new Fixture();
+            var testUri = fixture.Create<Uri>().AbsoluteUri;
+
+            // GENERATE CONTENT 
+
             Product p1 = fixture.Create<Product>();
             p1.Id = 1;
             fixture.Inject(new UriScheme("http"));
@@ -114,22 +169,26 @@ namespace ShopGeneralTests.Services
             context.Products.Add(p1);
             context.SaveChanges();
 
-            var mockedProtected = _msgHandler.Protected();
-            var setupHttpRequest = mockedProtected.Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
-                ItExpr.IsAny<HttpRequestMessage>(),
-                ItExpr.IsAny<CancellationToken>()
-                );
-            var httpMockedResponse =
-                setupHttpRequest.ReturnsAsync(new HttpResponseMessage()
-                {
-                    StatusCode = HttpStatusCode.NotFound
-                });
 
-            //ACT
+
+            // MOCK A NEW MESSAGE HANDLER
+            var handler = new MockHttpMessageHandler();
+            //handler.When(HttpMethod., testUri.ToString())
+            //       .Respond(HttpStatusCode.NotFound);
+
+            handler.When(ItExpr.IsAny<HttpRequestOptions>).SendAsync(ItExpr.IsAny<HttpRequestMessage>, ItExpr.IsAny<CancellationToken>());
+
+
+
+            var http = handler.ToHttpClient();
+
+            _mockHttpClientFactory.Setup(p => p.CreateClient(It.IsAny<string>())).Returns(http);
+
+
+            // ACT
             var result = _sut.VerifyProductImages();
 
-            //ASSERT
+            // ASSERT
             Assert.AreEqual(1, result.Result[0]);
 
         }
