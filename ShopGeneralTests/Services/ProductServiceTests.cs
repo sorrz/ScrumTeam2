@@ -75,6 +75,28 @@ namespace ShopGeneralTests.Services
 
         }
 
+
+        //[TestMethod()]
+        //public void VerifyProductImagesTest()
+        //{
+        //    //ARRANGE
+        //    Fixture fixture = new();
+        //    Product p1 = fixture.Create<Product>();
+
+        //    p1.Id = 404;
+
+        //    context.Products.Add(p1);
+
+        //    context.SaveChanges();
+
+        //    //ACT
+        //    var result = _sut.VerifyProductImages();
+
+        //    //ASSERT
+        //    Assert.AreEqual(1, result.Result.Count);
+        //    Assert.AreEqual(404, result.Result[0]);
+        //}
+
         [TestMethod]
         public void CheckCategories_Should_Return_c3_CategoryName()
         {
@@ -114,12 +136,15 @@ namespace ShopGeneralTests.Services
             //ARRANGE
             var mockProtected = _msgHandler.Protected();
 
-            //ACT
+
+
+
 
             //ASSERT
             Assert.Fail();
 
         }
+
 
     }
 }
