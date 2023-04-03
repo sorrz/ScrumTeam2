@@ -167,6 +167,19 @@ namespace ShopGeneralTests.Services
         //Meaning that we have products in our list and send it but no stock available.
 
 
+        //Make a testproject for MvSuperShop to have this for testing the outcome of the commands? See the next testmethod as well.
+        [TestMethod]
+        public void If_File_Is_Empty_Return_Error_File_Is_Empty()
+        {
+            //ARRANGE
+
+            //ACT
+
+            //ASSERT
+
+        }
+
+
         //This could work for P1-P3 if we refactor our code for filecreation.
         //Make a testproject for MvSuperShop to have this for testing the outcome of the commands?
         [TestMethod]
