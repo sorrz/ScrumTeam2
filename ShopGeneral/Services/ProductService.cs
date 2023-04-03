@@ -77,6 +77,7 @@ public class ProductService : IProductService
 
     public List<string> RetrieveAllEmailAddresses()
     {
+        // TODO Check Live, so we don't get duplicates! 
         // Filter out the manufacturers that don't have an email address
         var manufacturersWithEmail = _context.Manufacturers.Where(m => !string.IsNullOrEmpty(m.EmailReport));
 

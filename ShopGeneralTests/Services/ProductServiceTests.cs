@@ -7,6 +7,7 @@ using Moq;
 using ShopGeneral.Data;
 using ShopGeneral.Services;
 using Moq.Protected;
+using Bogus.DataSets;
 
 namespace ShopGeneralTests.Services
 {
@@ -118,6 +119,44 @@ namespace ShopGeneralTests.Services
 
             //ASSERT
             Assert.Fail();
+
+        }
+
+
+        [TestMethod]
+        public void RetrieveAllEmailAddresses_ReturnsOnlyEmailAddresses()
+        {
+            // Arrange
+            Fixture fixture = new Fixture();
+            Product p1 = fixture.Create<Product>();
+            Product p2 = fixture.Create<Product>();
+            Product p3 = fixture.Create<Product>();
+
+            var p1Mail = "jason@microsoft.com";
+            var p2Mail = "hermes@godmail.com";
+
+
+            p1.Manufacturer.EmailReport = p1Mail;
+            p2.Manufacturer.EmailReport = p2Mail;
+            p3.Manufacturer.EmailReport = "";
+            //p4.Manufacturer.EmailReport = null;   // SQLite Wont accept Null values!
+
+
+
+            context.Products.Add(p1);
+            context.Products.Add(p2);
+            context.Products.Add(p3);
+            
+            context.SaveChanges();
+
+            // Act
+            var result = _sut.RetrieveAllEmailAddresses();
+
+            // Assert
+            //CollectionAssert.AreEqual(new List<string>() { "jason@microsoft.com", "hermes@godmail.com" }, result);
+            Assert.AreEqual(p1Mail, result[1]); // Returns jason@
+            Assert.AreEqual(p2Mail, result[0]); // Returns hermes@
+            Assert.AreEqual(2, result.Count); // True or False
 
         }
 
