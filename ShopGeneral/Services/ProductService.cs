@@ -63,5 +63,16 @@ public class ProductService : IProductService
         return productImageNotFound;
     }
 
+    public List<Category> CheckCategories()
+    {
+        // Get all Categories, sorted after Name
+        var categoryList = _context.Categories.OrderBy(y => y.Name).ToList();
+        // Get all Products, sorted after Category Name
+        var productList = _context.Products.OrderBy(x => x.Category.Name).ToList();
+        // Get the Distinct Lists of the Names
+        var result = categoryList.ExceptBy(productList
+            .Select(a => a.Category.Name), x => x.Name).ToList();
+        return result;
+    }
 }
 
