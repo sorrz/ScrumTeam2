@@ -191,22 +191,22 @@ namespace ShopGeneralTests.Services
         //    Assert.AreEqual(1, result.Result[0]);
 
 
-        public class Service
-        {
-            private readonly IHttpClientFactory _httpFactory;
+        //public class Service
+        //{
+        //    private readonly IHttpClientFactory _httpFactory;
 
-            public Service(IHttpClientFactory httpFactory)
-            {
-                _httpFactory = httpFactory ?? throw new ArgumentNullException(nameof(httpFactory));
-            }
+        //    public Service(IHttpClientFactory httpFactory)
+        //    {
+        //        _httpFactory = httpFactory ?? throw new ArgumentNullException(nameof(httpFactory));
+        //    }
 
-            public Task<string> GetStringAsync(Uri uri)
-            {
-                var http = _httpFactory.CreateClient(nameof(Service));
+        //    public Task<string> GetStringAsync(Uri uri)
+        //    {
+        //        var http = _httpFactory.CreateClient(nameof(Service));
 
-                return http.GetStringAsync(uri);
-            }
-        }
+        //        return http.GetStringAsync(uri);
+        //    }
+        //}
         [TestMethod]
         public async Task Should_Return_one_failed_instance_of_image_Verification()
         {
