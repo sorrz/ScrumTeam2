@@ -74,5 +74,20 @@ public class ProductService : IProductService
             .Select(a => a.Category.Name), x => x.Name).ToList();
         return result;
     }
+
+    public List<string> RetrieveAllEmailAddresses()
+    {
+        // Filter out the manufacturers that don't have an email address
+        var manufacturersWithEmail = _context.Manufacturers.Where(m => !string.IsNullOrEmpty(m.EmailReport));
+
+        // Extract the email addresses
+        var emailAddresses = manufacturersWithEmail.Select(m => m.EmailReport).ToList();
+
+        return emailAddresses;
+    }
+
+
+
+
 }
 
