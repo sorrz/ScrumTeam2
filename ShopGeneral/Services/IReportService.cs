@@ -1,4 +1,5 @@
-﻿using ShopGeneral.Data;
+﻿using Bogus.DataSets;
+using ShopGeneral.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace ShopGeneral.Services
     public interface IReportService
     {
         public string JsonProductReport(List<Product> products);
+        public string JsonReport(List<int> images);
     }
 }

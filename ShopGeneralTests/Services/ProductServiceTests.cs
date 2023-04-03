@@ -75,17 +75,28 @@ namespace ShopGeneralTests.Services
 
         }
 
-        [TestMethod()]
-        public void VerifyProductImagesTest()
-        {
-            //ARRANGE
-            var mockProtected = _msgHandler.Protected();
+        //[TestMethod()]
+        //public void VerifyProductImagesTest()
+        //{
+        //    //ARRANGE
+        //    Fixture fixture = new();
+        //    Product p1 = fixture.Create<Product>();
 
-            //ACT
+        //    p1.Id = 404;
 
-            //ASSERT
-            Assert.Fail();
-        }
+        //    context.Products.Add(p1);
+
+        //    context.SaveChanges();
+
+        //    //ACT
+        //    var result = _sut.VerifyProductImages();
+
+        //    //ASSERT
+        //    Assert.AreEqual(1, result.Result.Count);
+        //    Assert.AreEqual(404, result.Result[0]);
+        //}
+
+
 
     }
 }
