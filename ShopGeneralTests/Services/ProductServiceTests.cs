@@ -146,5 +146,45 @@ namespace ShopGeneralTests.Services
         }
 
 
+
+
+
+        /* UnitTestP1 ideas */
+
+        //Not create and send a file to Pricerunner?
+        //What if there was products in stock before, send a remove-file to Pricerunner?
+        [TestMethod]
+        public void If_ProductList_Contain_No_Products_Return_Error_No_Products_In_Database() //...And_No_File_Created ?
+        {
+            //ARRANGE
+
+            //ACT
+
+            //ASSERT
+
+        }
+        //Also possible for us to add a function of stock, for example send a list to Pricerunner with no stock.
+        //Meaning that we have products in our list and send it but no stock available.
+
+
+        //This could work for P1-P3 if we refactor our code for filecreation.
+        //Make a testproject for MvSuperShop to have this for testing the outcome of the commands?
+        [TestMethod]
+        public void If_File_Has_Not_Been_Created_Should_Return_Error_No_File_Created()
+        {
+            //ARRANGE
+
+            //ACT
+
+            //ASSERT
+
+        }
+
+
+
+
+
+
+
     }
 }
