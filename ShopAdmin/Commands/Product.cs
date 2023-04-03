@@ -45,7 +45,9 @@ namespace ShopAdmin.Commands
 
         }
 
-        public void Verifyimage()
+
+
+/*        public void Verifyimage()
         {
             //Need to return to for testing and probably adjust/change after the VerifiProductImages() and such is done.
             var listOfMissingImages = _productService.VerifyProductImages();
@@ -62,7 +64,7 @@ namespace ShopAdmin.Commands
             }
 
         }
-
+*/
         //public void VerifyimageTest()
         //{
         //    var faltyImageProducts = _productService.VerifyProductImages();
