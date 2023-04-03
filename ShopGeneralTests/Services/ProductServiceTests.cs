@@ -19,6 +19,7 @@ namespace ShopGeneralTests.Services
         private Mock<IMapper> _mapper;
         private Mock<IPricingService> _pricingService;
         private Mock<HttpMessageHandler> _msgHandler;
+        public static HttpMessageHandler _handler;
 
         [TestInitialize]
         public void Init()
@@ -35,7 +36,7 @@ namespace ShopGeneralTests.Services
             context = new ApplicationDbContext(contextOptions);
             context.Database.EnsureCreated();
 
-            _sut = new ProductService(context, _pricingService.Object, _mapper.Object, _msgHandler.Object);
+            _sut = new ProductService(context, _pricingService.Object, _mapper.Object);
         }
 
         [TestMethod]
@@ -105,12 +106,17 @@ namespace ShopGeneralTests.Services
         [TestMethod]
         public void Any_Image_url_should_return_not_found_and_return_product_id_list()
         {
+
+            // TODO Wors with a real adress as it'll check for it! Mock not working as intended ?!
+           
+
+
             //ARRANGE
             Fixture fixture = new Fixture();
             Product p1 = fixture.Create<Product>();
             p1.Id = 1;
-            fixture.Inject(new UriScheme("http"));
-            p1.ImageUrl = fixture.Create<Uri>().AbsoluteUri;
+            //fixture.Inject(new UriScheme("http://www.google.se/image004.jpg"));
+            p1.ImageUrl = "http://www.google.se/image004.jpg";
             context.Products.Add(p1);
             context.SaveChanges();
 

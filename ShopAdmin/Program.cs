@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ShopAdmin.Configuration;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Profiles;
 using ShopGeneral.Services;
@@ -9,6 +10,7 @@ using ShopGeneral.Services;
 var builder = ConsoleApp.CreateBuilder(args);
 builder.ConfigureServices((ctx, services) =>
 {
+    var mailSettings = ctx.Configuration.GetSection("MailSettings");
     var connectionString = ctx.Configuration.GetConnectionString("DefaultConnection");
     services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(connectionString));
@@ -19,7 +21,6 @@ builder.ConfigureServices((ctx, services) =>
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
     services.AddTransient<IAgreementService, AgreementService>();
     services.AddTransient<IReportService, ReportService>();
     services.AddTransient<IPricingService, PricingService>();
@@ -28,6 +29,8 @@ builder.ConfigureServices((ctx, services) =>
     services.AddAutoMapper(typeof(Program));
     services.AddAutoMapper(typeof(ProductProfile));
     services.AddTransient<DataInitializer>();
+    services.Configure<MailSettings>(mailSettings);
+    services.AddTransient<IMailService, MailService>();
     // Using Cysharp/ZLogger for logging to file
     //services.AddLogging(logging =>
     //{

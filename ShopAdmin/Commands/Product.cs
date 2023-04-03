@@ -52,7 +52,7 @@ namespace ShopAdmin.Commands
             var report = _reportService.JsonReport(listOfMissingImages.Result);
 
             var folderPath = Path.Combine("outfiles", "products");
-            var fullFilePath = Path.Combine(folderPath,"missingimages-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
+            var fullFilePath = Path.Combine(folderPath, "missingimages-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
 
             Directory.CreateDirectory(folderPath);
 
@@ -77,7 +77,7 @@ namespace ShopAdmin.Commands
         //    {
         //        foreach (var product in faltyImageProducts.Result)
         //        {
-        //            streamWriter.WriteLine(product.Id);
+        //            streamWriter.WriteLine(product);
         //        }
         //    }
         //}

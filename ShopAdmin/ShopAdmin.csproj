@@ -29,6 +29,7 @@
 
     <ItemGroup>
         <PackageReference Include="ConsoleAppFramework" Version="4.2.4" />
+        <PackageReference Include="MailKit" Version="3.6.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />

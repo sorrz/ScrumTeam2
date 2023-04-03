@@ -14,12 +14,12 @@ public class ProductService : IProductService
     public static HttpClient? _httpClient;
     public static HttpMessageHandler? _handler { get; set; }
 
-    public ProductService(ApplicationDbContext context, IPricingService pricingService, IMapper mapper, HttpMessageHandler handler)
+    public ProductService(ApplicationDbContext context, IPricingService pricingService, IMapper mapper)
     {
         _context = context;
         _pricingService = pricingService;
         _mapper = mapper;
-        _handler = handler;
+        
     }
 
     public IEnumerable<ProductServiceModel> GetNewProducts(int cnt, CurrentCustomerContext context)
