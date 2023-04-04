@@ -3,10 +3,10 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using ShopAdmin.Configuration;
-using ShopGeneral.Data;
+using ShopAdmin.Data;
 
 
-namespace ShopGeneral.Services
+namespace ShopAdmin.Services
 {
     public class MailService : IMailService
     {

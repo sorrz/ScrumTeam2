@@ -7,6 +7,7 @@ using ShopAdmin.Configuration;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Profiles;
 using ShopGeneral.Services;
+using ShopAdmin.Services;
 
 var builder = ConsoleApp.CreateBuilder(args);
 builder.ConfigureServices((ctx, services) =>
@@ -29,8 +30,9 @@ builder.ConfigureServices((ctx, services) =>
     services.AddAutoMapper(typeof(Program));
     services.AddAutoMapper(typeof(ProductProfile));
     services.AddTransient<DataInitializer>();
+    services.Configure<MailSettings>(ctx.Configuration.GetSection(nameof(MailSettings)));
     services.AddTransient<IMailService, MailService>();
-    services.Configure<MailSettings>(ctx.Configuration.GetSection("MailSettings"));
+ 
 
     // Using Cysharp/ZLogger for logging to file
     //services.AddLogging(logging =>
