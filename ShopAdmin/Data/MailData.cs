@@ -1,4 +1,6 @@
-﻿namespace ShopAdmin.Data
+﻿using MimeKit;
+
+namespace ShopAdmin.Data
 {
     public class MailData
     {
@@ -19,9 +21,9 @@
         // Content
         public string Subject { get; }
 
-        public string? Body { get; }
+        public BodyBuilder? Body { get; }
 
-        public MailData(List<string> to, string subject, string? body = null, string? from = null, string? displayName = null, string? replyTo = null, string? replyToName = null, List<string>? bcc = null, List<string>? cc = null)
+        public MailData(List<string> to, string subject, BodyBuilder? body = null, string? from = null, string? displayName = null, string? replyTo = null, string? replyToName = null, List<string>? bcc = null, List<string>? cc = null)
         {
             // Receiver
             To = to;

@@ -14,29 +14,31 @@ namespace ShopAdmin.Commands
     public class Manufacturer : ConsoleAppBase
     {
         private readonly IMailService _mailService;
-        private readonly IProductService _productService;
+        private readonly IManufacturerService _manufacturerService;
+        private readonly IReportService _reportService;
 
-        public Manufacturer(IMailService mailService, IProductService productService)
+        public Manufacturer(IMailService mailService, IManufacturerService manufacturerService, IReportService reportService)
         {
             _mailService = mailService;
-            _productService = productService;
+            _manufacturerService = manufacturerService;
+            _reportService = reportService;
         }
 
-        public async void Sendreport()
+        public void Sendreport()
         {
-            var to = _productService.GetManufacturerEmails();
-            List<string>? bcc = new List<string>();
-            List<string>? cc = new List<string>();
-            //to.Add("jarod.strosin70@ethereal.email");
-            var subject = "HelloWorldSubject";
-            string? body = null;
-            string? from = null;
-            string? displayName = null;
-            string? replyTo = null;
-            string? replyToName = null;
+            var manufacturersSalesReports = _manufacturerService.GetManufacturerSalesReport();
+
             CancellationToken ct = default(CancellationToken);
-            MailData mailData = new(to, subject, body, from, displayName, replyTo, replyToName, bcc, cc);
-            var result = await _mailService.SendAsync(mailData, ct);
+
+            manufacturersSalesReports.ForEach(
+                m => _mailService.SendAsync(
+                    new MailData(
+                        new List<string>() { m._manufacturer.EmailReport },
+                        "Sales Report for: " + m._manufacturer.Name,
+                        m._builder
+                        ), ct)
+                );
+
             Console.ReadKey(true); // Waiting for input before closing...
         }
     }

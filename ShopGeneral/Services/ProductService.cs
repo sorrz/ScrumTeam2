@@ -76,7 +76,6 @@ public class ProductService : IProductService
         return result;
     }
 
-    public List<string> GetManufacturerEmails() => _context.Manufacturers.Select(r => r.EmailReport).ToList();
    
 }
 

@@ -43,9 +43,8 @@ namespace ShopAdmin.Services
                 //    mail.ReplyTo.Add(new MailboxAddress(mailData.ReplyToName, mailData.ReplyTo));
 
                 // Add Content to Mime Message
-                var body = new BodyBuilder();
+                var body = mailData.Body;
                 mail.Subject = mailData.Subject;
-                body.HtmlBody = mailData.Body;
                 mail.Body = body.ToMessageBody();
 
                 using var smtp = new SmtpClient();
