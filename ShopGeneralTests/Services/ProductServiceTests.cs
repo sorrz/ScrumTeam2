@@ -97,6 +97,27 @@ namespace ShopGeneralTests.Services
         //    Assert.AreEqual(404, result.Result[0]);
         //}
 
+        //Flyttad från Product.cs i ShopAdmin:
+        //public void VerifyimageTest()
+        //{
+        //    var faltyImageProducts = _productService.VerifyProductImages();
+
+        //    var folderPath = Path.Combine("outfiles", "products");
+
+        //    var fullFilePath = Path.Combine(folderPath, "missingimages-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
+
+        //    Directory.CreateDirectory(folderPath);
+
+        //    using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
+        //    {
+        //        foreach (var product in faltyImageProducts.Result)
+        //        {
+        //            streamWriter.WriteLine(product.Id);
+        //        }
+        //    }
+        //}
+
+
         [TestMethod]
         public void CheckCategories_Should_Return_c3_CategoryName()
         {
