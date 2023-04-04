@@ -3,26 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MimeKit;
 using Org.BouncyCastle.Asn1.Pkcs;
 using ShopAdmin.Data;
 using ShopAdmin.Services;
+using ShopGeneral.Services;
 
 namespace ShopAdmin.Commands
 {
     public class Manufacturer : ConsoleAppBase
     {
         private readonly IMailService _mailService;
-        public Manufacturer(IMailService mailService)
+        private readonly IProductService _productService;
+
+        public Manufacturer(IMailService mailService, IProductService productService)
         {
             _mailService = mailService;
+            _productService = productService;
         }
 
         public async void Sendreport()
         {
-            List<string> to = new List<string>();
-            List<string> bcc = new List<string>();
-            List<string> cc = new List<string>();
-            to.Add("johan.kreivi@gmail.com");
+            var to = _productService.GetManufacturerEmails();
+            List<string>? bcc = new List<string>();
+            List<string>? cc = new List<string>();
+            //to.Add("jarod.strosin70@ethereal.email");
             var subject = "HelloWorldSubject";
             string? body = null;
             string? from = null;
@@ -32,6 +37,7 @@ namespace ShopAdmin.Commands
             CancellationToken ct = default(CancellationToken);
             MailData mailData = new(to, subject, body, from, displayName, replyTo, replyToName, bcc, cc);
             var result = await _mailService.SendAsync(mailData, ct);
+            Console.ReadKey(true); // Waiting for input before closing...
         }
     }
 }

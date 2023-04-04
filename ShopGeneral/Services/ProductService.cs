@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Context;
 using System.Net;
@@ -74,5 +75,8 @@ public class ProductService : IProductService
             .Select(a => a.Category.Name), x => x.Name).ToList();
         return result;
     }
+
+    public List<string> GetManufacturerEmails() => _context.Manufacturers.Select(r => r.EmailReport).ToList();
+   
 }
 
