@@ -4,8 +4,7 @@ using Microsoft.Extensions.Options;
 using MimeKit;
 using ShopAdmin.Configuration;
 using ShopAdmin.Data;
-using System.Threading;
-using System;
+
 
 
 namespace ShopAdmin.Services
@@ -13,10 +12,12 @@ namespace ShopAdmin.Services
     public class MailService : IMailService
     {
         private readonly MailSettings _settings;
+        
 
         public MailService(IOptions<MailSettings> settings)
         {
             _settings = settings.Value;
+            
         }
 
         public async Task<bool> SendAsync(MailData mailData, CancellationToken ct)
@@ -57,16 +58,16 @@ namespace ShopAdmin.Services
                 else if (_settings.UseStartTls)
                 {
 
-                    //// ASYNC IMPLEMENTATION FROM https://learn.microsoft.com/en-us/answers/questions/226811/mailkit-wont-authenticate-when-trying-to-send-emai
-                    //await smtp.ConnectAsync(_settings.Host, 587, SecureSocketOptions.StartTls).ConfigureAwait(true);
-                    //await smtp.AuthenticateAsync(_settings.UserName, _settings.Password, ct).ConfigureAwait(true);
-                    //await smtp.SendAsync(mail, ct).ConfigureAwait(true);
+                    ////// ASYNC IMPLEMENTATION FROM https://learn.microsoft.com/en-us/answers/questions/226811/mailkit-wont-authenticate-when-trying-to-send-emai
+                    //await smtp.ConnectAsync(_settings.Host, 587, SecureSocketOptions.StartTls, ct);
+                    //await smtp.AuthenticateAsync(_settings.UserName, _settings.Password, ct);
+                    //await smtp.SendAsync(mail, ct);
 
 
 
 
 
-                    // ---- THIS WORKS BUT IS NOT ASYNC
+                    //// ---- THIS WORKS BUT IS NOT ASYNC
 
                     smtp.Connect(_settings.Host, _settings.Port, SecureSocketOptions.StartTls, ct);
                     ////await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.StartTls, ct);
