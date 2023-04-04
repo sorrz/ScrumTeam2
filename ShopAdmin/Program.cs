@@ -28,6 +28,7 @@ builder.ConfigureServices((ctx, services) =>
     services.AddAutoMapper(typeof(Program));
     services.AddAutoMapper(typeof(ProductProfile));
     services.AddTransient<DataInitializer>();
+    services.AddTransient<IFileOutputService, FileOutputService>();
     // Using Cysharp/ZLogger for logging to file
     //services.AddLogging(logging =>
     //{

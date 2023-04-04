@@ -7,14 +7,16 @@ namespace ShopAdmin.Commands
     {
         private readonly IProductService _productService;
         private readonly IReportService _reportService;
+        private readonly IFileOutputService _fileOutputService;
 
-        public Categorie(IProductService productService, IReportService reportService)
+        public Categorie(IProductService productService, IReportService reportService, IFileOutputService fileOutputService)
         {
             _productService = productService;
             _reportService = reportService;
+            _fileOutputService = fileOutputService;
         }
 
-        public string Checkempty()
+        public void Checkempty()
         {
             var result = _productService.CheckCategories();
             var report = _reportService.JsonReport(result);
@@ -22,21 +24,7 @@ namespace ShopAdmin.Commands
             var folderName = "category";
             var fileName = "missingproducts-";
 
-
-            //Lyfta ut nedan:
-            var folderPath = Path.Combine("outfiles\\category\\");
-            var fullFilePath = Path.Combine(folderPath, "missingproducts-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
-            Directory.CreateDirectory(folderPath);
-
-            using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
-            {
-                streamWriter.Write(report);
-            }
-            //Lyfta ut ovan:
-
-
-            return result + report + folderName + fileName;
-            //return eller ta ovanstående och kalla funktionen härifrån.
+            _fileOutputService.FileOutput(report, folderName, fileName);
         }
     }
 }
