@@ -6,6 +6,7 @@ using ShopAdmin.Configuration;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Profiles;
 using ShopGeneral.Services;
+using ShopAdmin.Services;
 
 var builder = ConsoleApp.CreateBuilder(args);
 builder.ConfigureServices((ctx, services) =>

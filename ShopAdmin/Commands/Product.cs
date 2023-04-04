@@ -1,7 +1,6 @@
 ﻿using ShopGeneral.Services;
 ﻿using Bogus;
 using Humanizer;
-using ShopGeneral.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
