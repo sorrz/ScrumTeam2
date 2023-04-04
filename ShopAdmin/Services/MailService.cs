@@ -34,6 +34,10 @@ namespace ShopAdmin.Services
                 foreach (string mailAddress in mailData.To)
                     mail.To.Add(MailboxAddress.Parse(mailAddress));
 
+                // Try Parse not add un-parsable mail-adresses from the Mail.TO 
+
+
+
                 // Set Reply to if specified in mail data
                 //if (!string.IsNullOrEmpty(mailData.ReplyTo))
                 //    mail.ReplyTo.Add(new MailboxAddress(mailData.ReplyToName, mailData.ReplyTo));
