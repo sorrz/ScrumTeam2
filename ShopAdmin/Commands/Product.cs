@@ -2,7 +2,6 @@
 ﻿using Bogus;
 using Humanizer;
 using ShopGeneral.Data;
-using ShopGeneral.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-
 
 namespace ShopAdmin.Commands
 {

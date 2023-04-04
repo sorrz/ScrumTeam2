@@ -14,12 +14,16 @@ namespace ShopAdmin.Commands
             _reportService = reportService;
         }
 
-        public void Checkempty()
+        public string Checkempty()
         {
             var result = _productService.CheckCategories();
             var report = _reportService.JsonReport(result);
 
+            var folderName = "category";
+            var fileName = "missingproducts-";
 
+
+            //Lyfta ut nedan:
             var folderPath = Path.Combine("outfiles\\category\\");
             var fullFilePath = Path.Combine(folderPath, "missingproducts-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
             Directory.CreateDirectory(folderPath);
@@ -28,7 +32,11 @@ namespace ShopAdmin.Commands
             {
                 streamWriter.Write(report);
             }
+            //Lyfta ut ovan:
 
+
+            return result + report + folderName + fileName;
+            //return eller ta ovanstående och kalla funktionen härifrån.
         }
     }
 }
