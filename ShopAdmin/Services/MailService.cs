@@ -24,7 +24,6 @@ namespace ShopAdmin.Services
                 // Create a MimeMessage
                 var mail = new MimeMessage();
 
-                
                 // Sender
                 mail.From.Add(new MailboxAddress(_settings.DisplayName, mailData.From ?? _settings.From));
                 mail.Sender = new MailboxAddress(mailData.DisplayName ?? _settings.DisplayName, mailData.From ?? _settings.From);
@@ -36,7 +35,6 @@ namespace ShopAdmin.Services
                 // Set Reply to if specified in mail data
                 //if (!string.IsNullOrEmpty(mailData.ReplyTo))
                 //    mail.ReplyTo.Add(new MailboxAddress(mailData.ReplyToName, mailData.ReplyTo));
-
 
                 // Add Content to Mime Message
                 var body = new BodyBuilder();
