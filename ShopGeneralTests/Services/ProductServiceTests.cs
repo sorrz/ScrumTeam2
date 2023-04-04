@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoMapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -108,8 +107,6 @@ namespace ShopGeneralTests.Services
         {
 
             // TODO Wors with a real adress as it'll check for it! Mock not working as intended ?!
-           
-
 
             //ARRANGE
             Fixture fixture = new Fixture();

@@ -19,7 +19,6 @@ public class ProductService : IProductService
         _context = context;
         _pricingService = pricingService;
         _mapper = mapper;
-        
     }
 
     public IEnumerable<ProductServiceModel> GetNewProducts(int cnt, CurrentCustomerContext context)
