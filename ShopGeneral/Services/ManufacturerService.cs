@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MimeKit;
+using MimeKit.Utils;
 
 namespace ShopGeneral.Services
 {
@@ -21,22 +22,26 @@ namespace ShopGeneral.Services
         public List<ManufacturerSalesReport> GetManufacturerSalesReport()
         { 
             List<ManufacturerSalesReport> manufacturerSalesReports = new List<ManufacturerSalesReport>();
-            foreach (var manufacturer in _context.Manufacturers)
+            foreach (var manufacturer in _context.Manufacturers
+                .OrderBy(e => e.EmailReport)
+                .Distinct())
             {
-                var builder = new BodyBuilder();
-
                 //MailContext
                 var productCountForManufacturer = _context.Products.Where(p => p.Manufacturer.Id == manufacturer.Id).Count();
+                var imageAdress = _context.Products.Where(p => p.Manufacturer.Id == manufacturer.Id).Select(m => m.ImageUrl).FirstOrDefault();
                 var manufacturerName = manufacturer.Name;
-                var totalSalesPlaceholder = "XXXX tkr";
+                int? sales = null;
+                var totalSalesPlaceholder = $"{sales} tkr";
 
                 var TextBody =  $"Sales report for: {manufacturerName}. " +
                                     $"Total sum of products in our shop: {productCountForManufacturer}. " +
                                     $"Sales total: {totalSalesPlaceholder}.";
 
-                var HtmlBody =  $"<h2>Sales report for: {manufacturerName}</h2><br />" +
-                                    $"<p>Total sum of products in our shop: {productCountForManufacturer}. " +
-                                    $"Sales total: {totalSalesPlaceholder}.</p>";
+                var HtmlBody =  $"<img src='{imageAdress}'> <br />" +
+                    $"<h2>Sales report for: {manufacturerName}</h2><br />" +
+                                    $"<p>Total sum of products in our shop: {productCountForManufacturer}.<br />" +
+                                    $"<br /> " +
+                                    $"Sales total: {totalSalesPlaceholder} the last 30 days.</p>";
 
                 var manufacturerSalesReport = new ManufacturerSalesReport() {_manufacturer = manufacturer, _textBody = TextBody, _htmlBody = HtmlBody};
                 manufacturerSalesReports.Add(manufacturerSalesReport);

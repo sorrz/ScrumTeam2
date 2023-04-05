@@ -7,6 +7,7 @@ using ShopGeneral.Data;
 using ShopGeneral.Services;
 using Moq.Protected;
 using System.Net;
+using MailKit;
 
 namespace ShopGeneralTests.Services
 {
@@ -19,6 +20,8 @@ namespace ShopGeneralTests.Services
         private Mock<IPricingService> _pricingService;
         private Mock<HttpMessageHandler> _msgHandler;
         public static HttpMessageHandler _handler;
+        public Mock<IMailService> _mailService;
+        public Mock<IManufacturerService> _manufacturerService;
 
         [TestInitialize]
         public void Init()
@@ -26,6 +29,8 @@ namespace ShopGeneralTests.Services
             _msgHandler = new Mock<HttpMessageHandler>();
             _mapper = new Mock<IMapper>();
             _pricingService = new Mock<IPricingService>();
+            _mailService = new Mock<IMailService>();
+            _manufacturerService = new Mock<IManufacturerService>();
 
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
@@ -37,6 +42,9 @@ namespace ShopGeneralTests.Services
 
             _sut = new ProductService(context, _pricingService.Object, _mapper.Object);
         }
+
+        
+
 
         [TestMethod]
         public void Should_Return_Correct_Count_and_Sorting()
