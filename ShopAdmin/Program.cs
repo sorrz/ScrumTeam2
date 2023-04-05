@@ -8,6 +8,7 @@ using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Profiles;
 using ShopGeneral.Services;
 using ShopAdmin.Services;
+using MailKit.Net.Smtp;
 
 var builder = ConsoleApp.CreateBuilder(args);
 builder.ConfigureServices((ctx, services) =>
@@ -33,6 +34,7 @@ builder.ConfigureServices((ctx, services) =>
     services.AddTransient<DataInitializer>();
     services.Configure<MailSettings>(ctx.Configuration.GetSection(nameof(MailSettings)));
     services.AddTransient<IMailService, MailService>();
+    
  
 
     // Using Cysharp/ZLogger for logging to file
