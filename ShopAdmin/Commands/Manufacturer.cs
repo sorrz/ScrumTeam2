@@ -35,7 +35,8 @@ namespace ShopAdmin.Commands
                     new MailData(
                         new List<string>() { m._manufacturer.EmailReport },
                         "Sales Report for: " + m._manufacturer.Name,
-                        m._builder
+                        m._htmlBody,
+                        m._textBody
                         ), ct)
                 );
 

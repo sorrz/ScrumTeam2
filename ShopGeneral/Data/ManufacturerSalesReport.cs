@@ -10,6 +10,7 @@ namespace ShopGeneral.Data
     public class ManufacturerSalesReport
     {
         public Manufacturer _manufacturer { get; set; }
-        public BodyBuilder _builder { get; set; }
+        public string _textBody { get; set; }
+        public string _htmlBody { get; set; }
     }
 }

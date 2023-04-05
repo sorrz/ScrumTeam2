@@ -21,9 +21,10 @@ namespace ShopAdmin.Data
         // Content
         public string Subject { get; }
 
-        public BodyBuilder? Body { get; }
+        public string? HtmlBody { get; }
+        public string? TextBody { get; }
 
-        public MailData(List<string> to, string subject, BodyBuilder? body = null, string? from = null, string? displayName = null, string? replyTo = null, string? replyToName = null, List<string>? bcc = null, List<string>? cc = null)
+        public MailData(List<string> to, string subject, string? htmlBody = null, string? textBody = null, string? from = null, string? displayName = null, string? replyTo = null, string? replyToName = null, List<string>? bcc = null, List<string>? cc = null)
         {
             // Receiver
             To = to;
@@ -38,7 +39,8 @@ namespace ShopAdmin.Data
 
             // Content
             Subject = subject;
-            Body = body;
+            HtmlBody = htmlBody;
+            TextBody = textBody;
         }
     }
 }

@@ -30,15 +30,15 @@ namespace ShopGeneral.Services
                 var manufacturerName = manufacturer.Name;
                 var totalSalesPlaceholder = "XXXX tkr";
 
-                builder.TextBody =  $"Sales report for: {manufacturerName}. " +
+                var TextBody =  $"Sales report for: {manufacturerName}. " +
                                     $"Total sum of products in our shop: {productCountForManufacturer}. " +
                                     $"Sales total: {totalSalesPlaceholder}.";
 
-                builder.HtmlBody =  $"<h2>Sales report for: {manufacturerName}</h2><br />" +
+                var HtmlBody =  $"<h2>Sales report for: {manufacturerName}</h2><br />" +
                                     $"<p>Total sum of products in our shop: {productCountForManufacturer}. " +
                                     $"Sales total: {totalSalesPlaceholder}.</p>";
 
-                var manufacturerSalesReport = new ManufacturerSalesReport() {_manufacturer = manufacturer, _builder = builder};
+                var manufacturerSalesReport = new ManufacturerSalesReport() {_manufacturer = manufacturer, _textBody = TextBody, _htmlBody = HtmlBody};
                 manufacturerSalesReports.Add(manufacturerSalesReport);
             }
             return manufacturerSalesReports;
