@@ -17,11 +17,8 @@ namespace ShopGeneralTests.Services
     {
         // Fields used for the testClass
         #region Fields
-        //private MailService _sut;
         private ApplicationDbContext context;
-        private Mock<IMapper> _mapper;
         private Mock<IPricingService> _pricingService;
-        private Mock<HttpMessageHandler> _msgHandler;
         public static HttpMessageHandler _handler;
         private IManufacturerService _sut;
         public Mock<IOptions<MailSettings>> _options;
@@ -34,7 +31,6 @@ namespace ShopGeneralTests.Services
         public void Init()
         {
             _options = new Mock<IOptions<MailSettings>>();
-            //_manufacturerService = new Mock<IManufacturerService>();
             _pricingService = new Mock<IPricingService>();
 
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -65,16 +61,11 @@ namespace ShopGeneralTests.Services
             m1._htmlBody = "";
             m1._manufacturer = p1.Manufacturer;
 
-
             context.SaveChanges();
 
             var result = _sut.GetManufacturerSalesReport();
 
             Assert.AreEqual(p1.Manufacturer.EmailReport.ToString(), result[0]._manufacturer.EmailReport.ToString());
-
-            
-
-
         }
 
         #endregion
