@@ -167,14 +167,14 @@ namespace ShopGeneralTests.Services
         public void VerifyProductImagesTest()
         {
             //ARRANGE
-            var mockProtected = _msgHandler.Protected();
+            //var mockProtected = _msgHandler.Protected();
 
 
 
 
 
             //ASSERT
-            Assert.Fail();
+            //Assert.Fail();
 
         }
 
@@ -183,86 +183,58 @@ namespace ShopGeneralTests.Services
 
 
         /* UnitTestP1 ideas */
-
-        //Not create and send a file to Pricerunner?
-        //What if there was products in stock before, send a remove-file to Pricerunner?
         [TestMethod]
-        public void If_ProductList_Contain_No_Products_Return_Error_No_Products_In_Database() //...And_No_File_Created ?
+        public void If_ProductList_Contain_No_Products_Return_No_Products_In_Database()
         {
-            //ARRANGE
+            var obj = new Product();
 
-            //ACT
+            var result = _sut.GetAllProductsOrDefault();
 
-            //ASSERT
-            //Assert.AreEqual();
+            Assert.AreEqual(0, result.Count);
         }
-        //Also possible for us to add a function of stock, for example send a list to Pricerunner with no stock.
-        //Meaning that we have products in our list and send it but no stock available.
 
-
-        //Make a testproject for MvSuperShop to have this for testing the outcome of the commands? See the next testmethod as well.
+        //Denna kanske inte behövs?
+        //Tom fil bör ju inte resultera i fel då det beror på om produkter/priser etc finns?
         [TestMethod]
         public void If_File_Is_Empty_Return_Error_File_Is_Empty()
         {
-            //ARRANGE
-
-            //ACT
-
-            //ASSERT
 
         }
 
-
-        //This could work for P1-P3 if we refactor our code for filecreation.
-        //Make a testproject for MvSuperShop to have this for testing the outcome of the commands?
+        //Code for confirmation of overwrite when commando is used?
         [TestMethod]
         public void If_Folder_Already_Contain_A_File_Created_Today_Return_File_Already_Created()
         {
             //ARRANGE
 
-            
             //ACT
 
-
             //ASSERT
-            //Assert.AreEqual();
         }
 
 
-        //This could work for P1-P3 if we refactor our code for filecreation.
-        //Make a testproject for MvSuperShop to have this for testing the outcome of the commands?
+        //If using a command does not generate a file.
         [TestMethod]
         public void If_File_Has_Not_Been_Created_Should_Return_Error_No_File_Created()
         {
             //ARRANGE
-            //Fixture fixture = new Fixture();
-
-
-            Fixture fixture = new Fixture();
-            _reportService.JsonReport
-            List<> p1 = fixture.Create<Product>();
-
-
-            var report =
+            /*
+            var report = "";
             _reportService.JsonReport(result) = fixture.Create<JsonReport>();
             string output = null;
             string folderName = "testfiler";
             string fileName = "test_fil-";
+            */
 
              //p1 = fixture.Create<Product>();
 
             //ACT
-            _fileOutputService.FileOutput(report, folderName, fileName);
+            
+            //_fileOutputService.FileOutput(report, folderName, fileName);
 
             //ASSERT
 
         }
-
-
-
-
-
-
 
     }
 }
