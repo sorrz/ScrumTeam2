@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Humanizer;
+using Microsoft.EntityFrameworkCore.Metadata;
 using MimeKit;
 using Org.BouncyCastle.Asn1.Pkcs;
 using ShopAdmin.Data;
@@ -27,20 +29,20 @@ namespace ShopAdmin.Commands
         public void Sendreport()
         {
             var manufacturersSalesReports = _manufacturerService.GetManufacturerSalesReport();
-
+            DateTime salesPeriod = DateTime.Now;
             CancellationToken ct = default(CancellationToken);
 
             manufacturersSalesReports.ForEach(
                 m => _mailService.SendAsync(
                     new MailData(
                         new List<string>() { m._manufacturer.EmailReport },
-                        "Sales Report for: " + m._manufacturer.Name,
+                        $"Sales Report for month: {salesPeriod.Month} \nfor Manufacturer {m._manufacturer.Name}",
                         m._htmlBody,
                         m._textBody
-                        ), ct)
+                        ), ct).Wait()
                 );
-
-            Console.ReadKey(true); // Waiting for input before closing...
+            //------- ReadKey -------- 
+            //Console.ReadKey(true);
         }
     }
 }

@@ -60,26 +60,26 @@ namespace ShopAdmin.Services
                 else if (_settings.UseStartTls)
                 {
 
-                    ////// ASYNC IMPLEMENTATION FROM https://learn.microsoft.com/en-us/answers/questions/226811/mailkit-wont-authenticate-when-trying-to-send-emai
-                    //await smtp.ConnectAsync(_settings.Host, 587, SecureSocketOptions.StartTls, ct);
-                    //await smtp.AuthenticateAsync(_settings.UserName, _settings.Password, ct);
-                    //await smtp.SendAsync(mail, ct);
+                    //// ASYNC IMPLEMENTATION FROM https://learn.microsoft.com/en-us/answers/questions/226811/mailkit-wont-authenticate-when-trying-to-send-emai
+                    await smtp.ConnectAsync(_settings.Host, 587, SecureSocketOptions.StartTls, ct).ConfigureAwait(false);
+                    await smtp.AuthenticateAsync(_settings.UserName, _settings.Password, ct).ConfigureAwait(false);
+                    await smtp.SendAsync(mail, ct).ConfigureAwait(false);
 
 
 
 
 
-                    //// ---- THIS WORKS BUT IS NOT ASYNC
+                    ////// ---- THIS WORKS BUT IS NOT ASYNC
 
-                    smtp.Connect(_settings.Host, _settings.Port, SecureSocketOptions.StartTls, ct);
-                    ////await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.StartTls, ct);
-                    smtp.Authenticate(_settings.UserName, _settings.Password, ct);
-                    smtp.Send(mail, ct);
+                    //smtp.Connect(_settings.Host, _settings.Port, SecureSocketOptions.StartTls, ct);
+                    //////await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.StartTls, ct);
+                    //smtp.Authenticate(_settings.UserName, _settings.Password, ct);
+                    //smtp.Send(mail, ct);
                 }
 
-                smtp.Disconnect(true, ct);
+                await smtp.DisconnectAsync(true, ct).ConfigureAwait(true);
 
-
+                
                 return true;
 
             }
@@ -87,7 +87,7 @@ namespace ShopAdmin.Services
             {
                 return false;
             }
-
+            
 
 
         }
