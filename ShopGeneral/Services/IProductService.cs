@@ -9,4 +9,5 @@ public interface IProductService
     public List<Product> GetAllProductsOrDefault();
     public List<Category> CheckCategories();
     public Task<List<int>> VerifyProductImages();
+    public List<string> JsonToXml(string JsonInput);
 }

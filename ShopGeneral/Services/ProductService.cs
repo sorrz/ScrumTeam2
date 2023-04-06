@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
+using Bogus.Bson;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Math.EC.Rfc7748;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Context;
 using System.Net;
+using System.Text;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Text.Json;
 
 namespace ShopGeneral.Services;
 
@@ -74,6 +79,30 @@ public class ProductService : IProductService
         return result;
     }
 
+    public List<string> JsonToXml(string JsonInput)
+    {
+        var xmlList = new List<string>();
 
+        // Objectify the JsonInput
+        var obj = JsonSerializer.Deserialize<ProductObject>(JsonInput)!;
+        // Send the C# Object into a XML Serializer
+        var xmlSerializer = new XmlSerializer(typeof(ProductObject));
+        // Build it to a string
+        var sb = new StringBuilder();
+        using var xmlWriter = XmlWriter.Create(sb);
+        var ns = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
+        // Serialize to XML
+        xmlSerializer.Serialize(xmlWriter, obj, ns);
+        // Convert to String and add to list
+        var xmlOutput = sb.ToString();
+        xmlList.Add(xmlOutput);
+        return xmlList;
+
+
+
+
+
+
+    }
 }
 
