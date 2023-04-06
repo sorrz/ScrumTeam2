@@ -19,10 +19,19 @@ namespace ShopGeneralTests.Services
         private Mock<IPricingService> _pricingService;
         private Mock<HttpMessageHandler> _msgHandler;
 
+        //Testar för branch UnitTestP1.
+        private Mock<IFileOutputService> _fileOutputService;
+        private FileOutputService _fileOutput;
+        private Mock<IReportService> _reportService;
+
         public ProductServiceTests()
         {
             _mapper = new Mock<IMapper>();
             _pricingService = new Mock<IPricingService>();
+
+            //Testar för branch UnitTestP1.
+            _fileOutputService = new Mock<IFileOutputService>();
+            _reportService = new Mock<IReportService>();
         }
 
 
@@ -40,6 +49,9 @@ namespace ShopGeneralTests.Services
             context.Database.EnsureCreated();
 
             _sut = new ProductService(context, _pricingService.Object, _mapper.Object);
+
+            //Testar för branch UnitTestP1.
+            //_fileOutput = new FileOutputService(_fileOutput);
         }
 
         [TestMethod]
@@ -182,7 +194,7 @@ namespace ShopGeneralTests.Services
             //ACT
 
             //ASSERT
-
+            //Assert.AreEqual();
         }
         //Also possible for us to add a function of stock, for example send a list to Pricerunner with no stock.
         //Meaning that we have products in our list and send it but no stock available.
@@ -204,11 +216,43 @@ namespace ShopGeneralTests.Services
         //This could work for P1-P3 if we refactor our code for filecreation.
         //Make a testproject for MvSuperShop to have this for testing the outcome of the commands?
         [TestMethod]
-        public void If_File_Has_Not_Been_Created_Should_Return_Error_No_File_Created()
+        public void If_Folder_Already_Contain_A_File_Created_Today_Return_File_Already_Created()
         {
             //ARRANGE
 
+            
             //ACT
+
+
+            //ASSERT
+            //Assert.AreEqual();
+        }
+
+
+        //This could work for P1-P3 if we refactor our code for filecreation.
+        //Make a testproject for MvSuperShop to have this for testing the outcome of the commands?
+        [TestMethod]
+        public void If_File_Has_Not_Been_Created_Should_Return_Error_No_File_Created()
+        {
+            //ARRANGE
+            //Fixture fixture = new Fixture();
+
+
+            Fixture fixture = new Fixture();
+            _reportService.JsonReport
+            List<> p1 = fixture.Create<Product>();
+
+
+            var report =
+            _reportService.JsonReport(result) = fixture.Create<JsonReport>();
+            string output = null;
+            string folderName = "testfiler";
+            string fileName = "test_fil-";
+
+             //p1 = fixture.Create<Product>();
+
+            //ACT
+            _fileOutputService.FileOutput(report, folderName, fileName);
 
             //ASSERT
 
