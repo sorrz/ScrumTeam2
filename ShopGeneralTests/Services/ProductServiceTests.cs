@@ -180,17 +180,17 @@ namespace ShopGeneralTests.Services
 
 
 
-
-
         /* UnitTestP1 ideas */
         [TestMethod]
         public void If_ProductList_Contain_No_Products_Return_No_Products_In_Database()
         {
             var obj = new Product();
+            context.Products.Add(obj);
+            context.SaveChanges();
 
             var result = _sut.GetAllProductsOrDefault();
 
-            Assert.AreEqual(0, result.Count);
+            Assert.AreEqual(null, result.Count);
         }
 
         //Denna kanske inte behövs?
@@ -218,18 +218,8 @@ namespace ShopGeneralTests.Services
         public void If_File_Has_Not_Been_Created_Should_Return_Error_No_File_Created()
         {
             //ARRANGE
-            /*
-            var report = "";
-            _reportService.JsonReport(result) = fixture.Create<JsonReport>();
-            string output = null;
-            string folderName = "testfiler";
-            string fileName = "test_fil-";
-            */
-
-             //p1 = fixture.Create<Product>();
 
             //ACT
-            
             //_fileOutputService.FileOutput(report, folderName, fileName);
 
             //ASSERT
