@@ -26,10 +26,12 @@ namespace ShopGeneral.Services
                 .OrderBy(e => e.EmailReport)
                 .Distinct())
             {
-                //MailContext
+                // MailContext
                 var productCountForManufacturer = _context.Products.Where(p => p.Manufacturer.Id == manufacturer.Id).Count();
-                var imageAdress = _context.Products.Where(p => p.Manufacturer.Id == manufacturer.Id).Select(m => m.ImageUrl).FirstOrDefault();
+                var imageAdress = _context.Products.Where(p => p.Manufacturer.Id == manufacturer.Id)
+                    .Select(m => m.ImageUrl).FirstOrDefault();
                 var manufacturerName = manufacturer.Name;
+                // Implement Logic for the Sales Revenue from Database when it's added here!
                 int? sales = null;
                 var totalSalesPlaceholder = $"{sales} tkr";
 
@@ -43,7 +45,8 @@ namespace ShopGeneral.Services
                                     $"<br /> " +
                                     $"Sales total: {totalSalesPlaceholder} the last 30 days.</p>";
 
-                var manufacturerSalesReport = new ManufacturerSalesReport() {_manufacturer = manufacturer, _textBody = TextBody, _htmlBody = HtmlBody};
+                var manufacturerSalesReport = new ManufacturerSalesReport() 
+                    {_manufacturer = manufacturer, _textBody = TextBody, _htmlBody = HtmlBody};
                 manufacturerSalesReports.Add(manufacturerSalesReport);
             }
             return manufacturerSalesReports;
