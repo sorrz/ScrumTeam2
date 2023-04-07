@@ -10,5 +10,6 @@ namespace ShopGeneral.Services
         public string JsonReport(List<string> strings);
         public string JsonReport(List<int> Ids);
         public string JsonReport(List<Category> categories);
+        public List<string> productToStringList(List<Product> products);
     }
 }

@@ -43,6 +43,28 @@ namespace ShopAdmin.Commands
             }
 
         }
+        public void ExportXML(string to)
+        {
+            var listOfProducts = _productService.GetAllProductsOrDefault();
+            // Report Service List of Products -> List of Strings
+            var strings = _reportService.productToStringList(listOfProducts);
+            var xmlExport = _productService.JsonToXml(strings);
+            var report = _reportService.JsonReport(xmlExport);
+
+
+            var folderPath = Path.Combine("outfiles", to);
+
+            var fullFilePath = Path.Combine(folderPath, DateTime.Now.ToString("yyyyMMdd") + ".xml");
+
+            Directory.CreateDirectory(folderPath);
+
+
+            using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
+            {
+                streamWriter.Write(report);
+            }
+
+        }
 
         public void Verifyimage()
         {
