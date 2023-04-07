@@ -2,7 +2,7 @@
   "profiles": {
     "ShopAdmin": {
       "commandName": "Project",
-      "commandLineArgs": "manufacturer sendreport"
+      "commandLineArgs": "product exportxml --to pricerunner"
     }
   }
 }
