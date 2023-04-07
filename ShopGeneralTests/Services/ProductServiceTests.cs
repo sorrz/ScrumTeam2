@@ -153,7 +153,7 @@ namespace ShopGeneralTests.Services
             //ARRANGE
             Fixture fixture = new Fixture();
             Product p1 = fixture.Create<Product>();
-            p1.Id = 1;
+            p1.Id = 1232435;
             context.Products.Add(p1);
             context.SaveChanges();
 
@@ -169,6 +169,7 @@ namespace ShopGeneralTests.Services
 
             //ASSERT
             Assert.IsNotNull(result);
+            //Assert.AreEqual(p1.Id, result.Contains("1232435"));
         }
 
     }
