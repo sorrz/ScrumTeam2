@@ -9,6 +9,6 @@ namespace ShopGeneral.Services
     public interface IRomanService
     {
         public string ConvertToRoman(int number);
-        public int ConvertFromRoman(string roman);
+        public int? ConvertFromRoman(string roman);
     }
 }
