@@ -1,13 +1,5 @@
 ﻿using ShopGeneral.Services;
-﻿using Bogus;
-using Humanizer;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+
 
 
 namespace ShopAdmin.Commands
@@ -23,7 +15,7 @@ namespace ShopAdmin.Commands
             _reportService = reportService;
         }
 
-        public void Export(string to)
+        public void Export(string to) // Command is called using "product export --to=pricerunner"
         {
             var listOfProducts = _productService.GetAllProductsOrDefault();
 
@@ -43,7 +35,7 @@ namespace ShopAdmin.Commands
             }
 
         }
-        public void ExportXML(string to)
+        public void ExportXML(string to) // Command is called using "product exportxml --to=pricerunner"
         {
             var listOfProducts = _productService.GetAllProductsOrDefault();
             var strings = _reportService.productToStringList(listOfProducts);
@@ -82,16 +74,18 @@ namespace ShopAdmin.Commands
 
         }
 
-        public void  Thumbnail(string folder) // --folder=c:\temp\bilder
+        public void Thumbnail(string folder) // Command is called using "product thumbnail --folder=c:\temp\bilder"
         {
             var listOfProduts = _productService.GetAllProductsOrDefault();
             var listOfImageURLs = listOfProduts.Select(e => e.ImageUrl).ToList();
-
+            var i = 1;
             foreach (var imageURL in listOfImageURLs)
             {
-                var thumbnail = _productService.CreateThumbnail(imageURL);
-                string fileName = Path.Combine(folder, $"{imageURL}" + ".png");
+                var image = _productService.GetImageFromUrl(imageURL);
+                var thumbnail = _productService.ResizeImage(image, new System.Drawing.Size(100, 100));
+                string fileName = Path.Combine(folder, $"image{i}" + ".png");
                 thumbnail.Save(fileName);
+                i++;
             }
 
         }

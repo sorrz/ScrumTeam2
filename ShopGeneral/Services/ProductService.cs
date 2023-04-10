@@ -5,6 +5,8 @@ using ShopGeneral.Infrastructure.Context;
 using System.Net;
 using System.Xml;
 using Newtonsoft.Json;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace ShopGeneral.Services;
 
@@ -88,7 +90,7 @@ public class ProductService : IProductService
         return xmlString;
     }
 
-    public System.Drawing.Image CreateThumbnail(string urlInput)
+    public System.Drawing.Image GetImageFromUrl(string urlInput)
     {
 
         System.Drawing.Image image = null;
@@ -101,11 +103,8 @@ public class ProductService : IProductService
             webRequest.Timeout = 30000;
 
             WebResponse webResponse = webRequest.GetResponse();
-
             Stream stream = webResponse.GetResponseStream();
-
-            image = System.Drawing.Image.FromStream(stream);
-
+            image = Image.FromStream(stream);
             webResponse.Close();
         }
         catch (Exception ex)
@@ -115,5 +114,33 @@ public class ProductService : IProductService
         return image;
     }
 
+    public Image ResizeImage(Image image, Size size)
+    {
+        // Entry Input
+        var sourceWidth = image.Width;
+        var sourceHeight = image.Height;
+        float percentX = 0;
+        var percentW = (float)size.Width / sourceWidth;
+        var percentH = (float)size.Height / sourceHeight;
+        // Calc for new desired Size
+        if (percentH < percentW)
+            percentX = percentH;
+        else
+            percentX = percentW;
+
+        // New output 
+        int destWidth = (int)(sourceWidth * percentX);
+        int destHeight = (int)(sourceHeight * percentX);
+
+        Bitmap thumbnail = new Bitmap(destWidth, destHeight);
+        Graphics g = Graphics.FromImage(thumbnail);
+        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+        // Draw Image to Thumbnail Var
+        g.DrawImage(image, 0, 0, destWidth, destHeight);
+        g.Dispose();
+
+        return thumbnail;
+    }
 }
 
