@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShopGeneral.Services
 {
-    internal class RomanService : IRomanService
+    public class RomanService : IRomanService
     {
         public Dictionary<char, int> TranslateTable = new Dictionary<char, int>() {
             {'I', 1},

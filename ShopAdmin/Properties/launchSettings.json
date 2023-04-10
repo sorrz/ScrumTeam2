@@ -2,7 +2,7 @@
   "profiles": {
     "ShopAdmin": {
       "commandName": "Project",
-      "commandLineArgs": "product exportxml --to pricerunner"
+      "commandLineArgs": "roman fromroman"
     }
   }
 }
