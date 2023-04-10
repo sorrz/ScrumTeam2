@@ -67,7 +67,6 @@ namespace ShopAdmin.Commands
 
         public void Verifyimage()
         {
-            //Need to return to for testing and probably adjust/change after the VerifiProductImages() and such is done.
             var listOfMissingImages = _productService.VerifyProductImages();
             var report = _reportService.JsonReport(listOfMissingImages.Result);
 
@@ -91,29 +90,11 @@ namespace ShopAdmin.Commands
             foreach (var imageURL in listOfImageURLs)
             {
                 var thumbnail = _productService.CreateThumbnail(imageURL);
-                string fileName = System.IO.Path.Combine(folder, $"{imageURL}" + ".png");
+                string fileName = Path.Combine(folder, $"{imageURL}" + ".png");
                 thumbnail.Save(fileName);
             }
 
         }
 
-        //public void VerifyimageTest()
-        //{
-        //    var faltyImageProducts = _productService.VerifyProductImages();
-
-        //    var folderPath = Path.Combine("outfiles", "products");
-
-        //    var fullFilePath = Path.Combine(folderPath, "missingimages-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
-
-        //    Directory.CreateDirectory(folderPath);
-
-        //    using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
-        //    {
-        //        foreach (var product in faltyImageProducts.Result)
-        //        {
-        //            streamWriter.WriteLine(product);
-        //        }
-        //    }
-        //}
     }
 }

@@ -36,7 +36,6 @@ public class ProductService : IProductService
 
     public async Task<List<int>> VerifyProductImages()
     {
-        //
         var products = _context.Products.ToList();
         List<int> productImageNotFound = new();
         _httpClient = new HttpClient();
@@ -97,13 +96,13 @@ public class ProductService : IProductService
         try
         {
 
-            System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(urlInput);
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(urlInput);
             webRequest.AllowWriteStreamBuffering = true;
             webRequest.Timeout = 30000;
 
-            System.Net.WebResponse webResponse = webRequest.GetResponse();
+            WebResponse webResponse = webRequest.GetResponse();
 
-            System.IO.Stream stream = webResponse.GetResponseStream();
+            Stream stream = webResponse.GetResponseStream();
 
             image = System.Drawing.Image.FromStream(stream);
 
