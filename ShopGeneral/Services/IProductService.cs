@@ -10,4 +10,5 @@ public interface IProductService
     public List<Category> CheckCategories();
     public Task<List<int>> VerifyProductImages();
     public List<string> JsonToXml(List<string> JsonInput);
+    public System.Drawing.Image CreateThumbnail(string inputUrl);
 }

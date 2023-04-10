@@ -83,6 +83,20 @@ namespace ShopAdmin.Commands
 
         }
 
+        public void  Thumbnail(string folder) // --folder=c:\temp\bilder
+        {
+            var listOfProduts = _productService.GetAllProductsOrDefault();
+            var listOfImageURLs = listOfProduts.Select(e => e.ImageUrl).ToList();
+
+            foreach (var imageURL in listOfImageURLs)
+            {
+                var thumbnail = _productService.CreateThumbnail(imageURL);
+                string fileName = System.IO.Path.Combine(folder, $"{imageURL}" + ".png");
+                thumbnail.Save(fileName);
+            }
+
+        }
+
         //public void VerifyimageTest()
         //{
         //    var faltyImageProducts = _productService.VerifyProductImages();
