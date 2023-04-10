@@ -79,15 +79,11 @@ public class ProductService : IProductService
     {
         List<string> xmlString = new();
         XmlDocument doc = new();
+
         foreach (var item in JsonInput)
         {
-            //XmlNode entry = doc.CreateNode("Product");
-            //entry = .AppendChild();
-
-
             doc = JsonConvert.DeserializeXmlNode(item);
             xmlString.Add(doc.InnerXml.ToString());
-
         }
 
         return xmlString;

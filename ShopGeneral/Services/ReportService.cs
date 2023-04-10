@@ -36,9 +36,7 @@ namespace ShopGeneral.Services
             List<string> strings = new();
             foreach (var product in products)
             {
-                var newtonCompleteJson = JsonConvert.SerializeObject(new 
-                { Products = products, Total = products.Count, Skip = 0m, Limit = 0 });
-
+                var newtonCompleteJson = JsonConvert.SerializeObject(new { product });
                 strings.Add(newtonCompleteJson);
             }
            
