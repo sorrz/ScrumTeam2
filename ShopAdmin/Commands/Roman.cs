@@ -25,7 +25,10 @@ namespace ShopAdmin.Commands
         }
         public void Toroman()
         {
-
+            var testNumber = 2023;
+            var result = _romanService.ConvertToRoman(testNumber);
+            Console.WriteLine(result);
+            Console.ReadKey();
         }
     }
 }
