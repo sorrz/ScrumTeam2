@@ -90,10 +90,9 @@ public class ProductService : IProductService
         return xmlString;
     }
 
-    public System.Drawing.Image GetImageFromUrl(string urlInput)
+    public Image GetImageFromUrl(string urlInput)
     {
-
-        System.Drawing.Image image = null;
+        Image image = null;
 
         try
         {

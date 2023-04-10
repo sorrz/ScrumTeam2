@@ -76,12 +76,14 @@ namespace ShopAdmin.Commands
 
         public void Thumbnail(string folder) // Command is called using "product thumbnail --folder=c:\temp\bilder"
         {
-            var listOfProduts = _productService.GetAllProductsOrDefault();
-            var listOfImageURLs = listOfProduts.Select(e => e.ImageUrl).ToList();
+            var listOfUrls = _productService.GetAllProductsOrDefault()
+                .Select(e => e.ImageUrl).ToList();
+            
             var i = 1;
-            foreach (var imageURL in listOfImageURLs)
+            foreach (var imageURL in listOfUrls)
             {
                 var image = _productService.GetImageFromUrl(imageURL);
+                if (image == null) continue; 
                 var thumbnail = _productService.ResizeImage(image, new System.Drawing.Size(100, 100));
                 string fileName = Path.Combine(folder, $"image{i}" + ".png");
                 thumbnail.Save(fileName);
