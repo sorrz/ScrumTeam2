@@ -2,9 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using ShopAdmin.Configuration;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Profiles;
 using ShopGeneral.Services;
+using ShopAdmin.Services;
+using MailKit.Net.Smtp;
 
 var builder = ConsoleApp.CreateBuilder(args);
 builder.ConfigureServices((ctx, services) =>
@@ -19,16 +23,19 @@ builder.ConfigureServices((ctx, services) =>
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
     services.AddTransient<IAgreementService, AgreementService>();
     services.AddTransient<IReportService, ReportService>();
     services.AddTransient<IPricingService, PricingService>();
     services.AddTransient<IProductService, ProductService>();
-    services.AddTransient<ICategoryService, CategoryService>(); // ? 
+    services.AddTransient<ICategoryService, CategoryService>();
+    services.AddTransient<IManufacturerService, ManufacturerService>();
     services.AddAutoMapper(typeof(Program));
     services.AddAutoMapper(typeof(ProductProfile));
     services.AddTransient<DataInitializer>();
+    services.Configure<MailSettings>(ctx.Configuration.GetSection(nameof(MailSettings)));
+    services.AddTransient<IMailService, MailService>();
     services.AddTransient<IFileOutputService, FileOutputService>();
+
     // Using Cysharp/ZLogger for logging to file
     //services.AddLogging(logging =>
     //{
@@ -36,8 +43,8 @@ builder.ConfigureServices((ctx, services) =>
     //});
 });
 
-var app = builder.Build();
 
+var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dataInitializer = scope.ServiceProvider.GetService<DataInitializer>();

@@ -46,5 +46,6 @@ namespace ShopAdmin.Commands
 
             _fileOutputService.FileOutput(report, folderName, fileName);
         }
+
     }
 }

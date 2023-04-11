@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoMapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +7,7 @@ using ShopGeneral.Data;
 using ShopGeneral.Services;
 using Moq.Protected;
 using System.Net;
+using MailKit;
 
 namespace ShopGeneralTests.Services
 {
@@ -19,6 +19,9 @@ namespace ShopGeneralTests.Services
         private Mock<IMapper> _mapper;
         private Mock<IPricingService> _pricingService;
         private Mock<HttpMessageHandler> _msgHandler;
+        public static HttpMessageHandler _handler;
+        public Mock<IMailService> _mailService;
+        public Mock<IManufacturerService> _manufacturerService;
 
         [TestInitialize]
         public void Init()
@@ -26,6 +29,8 @@ namespace ShopGeneralTests.Services
             _msgHandler = new Mock<HttpMessageHandler>();
             _mapper = new Mock<IMapper>();
             _pricingService = new Mock<IPricingService>();
+            _mailService = new Mock<IMailService>();
+            _manufacturerService = new Mock<IManufacturerService>();
 
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
@@ -35,11 +40,12 @@ namespace ShopGeneralTests.Services
             context = new ApplicationDbContext(contextOptions);
             context.Database.EnsureCreated();
 
-
             _sut = new ProductService(context, _pricingService.Object, _mapper.Object);
 
-
         }
+
+        
+
 
         [TestMethod]
         public void Should_Return_Correct_Count_and_Sorting()
@@ -151,6 +157,9 @@ namespace ShopGeneralTests.Services
         [TestMethod]
         public void Any_Image_url_should_return_not_found_and_return_product_id_list()
         {
+
+            // TODO Wors with a real adress as it'll check for it! Mock not working as intended ?!
+
             //ARRANGE
 
             //var mockProtected = _msgHandler.Protected();
@@ -158,8 +167,8 @@ namespace ShopGeneralTests.Services
             Fixture fixture = new Fixture();
             Product p1 = fixture.Create<Product>();
             p1.Id = 1;
-            fixture.Inject(new UriScheme("http"));
-            p1.ImageUrl = fixture.Create<Uri>().AbsoluteUri;
+            //fixture.Inject(new UriScheme("http://www.google.se/image004.jpg"));
+            p1.ImageUrl = "http://www.google.se/image004.jpg";
             context.Products.Add(p1);
             context.SaveChanges();
 

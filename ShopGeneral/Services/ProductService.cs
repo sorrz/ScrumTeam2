@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Context;
 using System.Net;
@@ -14,12 +15,11 @@ public class ProductService : IProductService
     public static HttpClient? _httpClient;
     public static HttpMessageHandler? _handler { get; set; }
 
-    public ProductService(ApplicationDbContext context, IPricingService pricingService, IMapper mapper, HttpMessageHandler handler)
+    public ProductService(ApplicationDbContext context, IPricingService pricingService, IMapper mapper)
     {
         _context = context;
         _pricingService = pricingService;
         _mapper = mapper;
-        _handler = handler;
     }
 
     public IEnumerable<ProductServiceModel> GetNewProducts(int cnt, CurrentCustomerContext context)
@@ -32,7 +32,7 @@ public class ProductService : IProductService
     }
 
     public List<Product> GetAllProductsOrDefault() => _context.Products.OrderBy(x => x.Name).ToList();
-    
+
     public async Task<List<int>> VerifyProductImages()
     {
         //
@@ -49,31 +49,31 @@ public class ProductService : IProductService
         {
             try
             {
-                using (var response = await _httpClient.GetAsync(product.ImageUrl)) {
+                using (var response = await _httpClient.GetAsync(product.ImageUrl))
+                {
                     if (response.StatusCode == HttpStatusCode.NotFound)
                         productImageNotFound.Add(product.Id);
                 }
-                
+
             }
             catch (Exception)
             {
                 throw;
             }
-            
+
         }
         return productImageNotFound;
     }
 
     public List<Category> CheckCategories()
     {
-        // Get all Categories, sorted after Name
         var categoryList = _context.Categories.OrderBy(y => y.Name).ToList();
-        // Get all Products, sorted after Category Name
         var productList = _context.Products.OrderBy(x => x.Category.Name).ToList();
-        // Get the Distinct Lists of the Names
         var result = categoryList.ExceptBy(productList
             .Select(a => a.Category.Name), x => x.Name).ToList();
         return result;
     }
+
+
 }
 

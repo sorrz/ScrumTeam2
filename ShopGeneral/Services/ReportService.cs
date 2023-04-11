@@ -1,4 +1,4 @@
-﻿using ShopGeneral.Data;
+using ShopGeneral.Data;
 using Newtonsoft.Json;
 
 namespace ShopGeneral.Services
@@ -32,7 +32,11 @@ namespace ShopGeneral.Services
             return newtonCompleteJson;
         }
 
-
+        public string JsonReport(List<int> Ids)
+        {
+            var newtonCompleteJson = JsonConvert.SerializeObject(new { Ids });
+            return newtonCompleteJson;
+        }
 
     }
 }

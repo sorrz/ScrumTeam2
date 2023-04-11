@@ -1,4 +1,3 @@
-
 ﻿using Bogus.DataSets;
 using ShopGeneral.Data;
 using System;
@@ -17,7 +16,7 @@ namespace ShopGeneral.Services
         public string JsonReport(List<int> images);
 
         public string JsonReport(List<string> strings);
-
+        public string JsonReport(List<int> Ids);
         public string JsonReport(List<Category> categories);
 
     }
