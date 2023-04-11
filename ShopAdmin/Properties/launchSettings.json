@@ -1,6 +1,38 @@
 {
   "profiles": {
-    "ShopAdmin": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "product export --to pricerunner": {
+      "commandName": "Project",
+      "commandLineArgs": "product export --to pricerunner"
+    },
+    "product verifyimage": {
+      "commandName": "Project",
+      "commandLineArgs": "product verifyimage"
+    },
+    "categorie checkempty": {
+      "commandName": "Project",
+      "commandLineArgs": "categorie checkempty"
+    },
+    "manufacturer sendreport": {
+      "commandName": "Project",
+      "commandLineArgs": "manufacturer sendreport"
+    },
+    "product exportxml --to pricerunner": {
+      "commandName": "Project",
+      "commandLineArgs": "product exportxml --to pricerunner"
+    },
+    "roman toroman": {
+      "commandName": "Project",
+      "commandLineArgs": "roman toroman"
+    },
+    "roman fromroman": {
+      "commandName": "Project",
+      "commandLineArgs": "roman fromroman"
+    },
+    "product thumbnail": {
       "commandName": "Project",
       "commandLineArgs": "product thumbnail --folder c:\\thumbs\\"
     }
