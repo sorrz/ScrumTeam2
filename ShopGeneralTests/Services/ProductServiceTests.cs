@@ -35,7 +35,10 @@ namespace ShopGeneralTests.Services
             context = new ApplicationDbContext(contextOptions);
             context.Database.EnsureCreated();
 
-            _sut = new ProductService(context, _pricingService.Object, _mapper.Object, _msgHandler.Object);
+
+            _sut = new ProductService(context, _pricingService.Object, _mapper.Object);
+
+
         }
 
         [TestMethod]
@@ -68,6 +71,49 @@ namespace ShopGeneralTests.Services
 
 
         }
+
+
+        //[TestMethod()]
+        //public void VerifyProductImagesTest()
+        //{
+        //    //ARRANGE
+        //    Fixture fixture = new();
+        //    Product p1 = fixture.Create<Product>();
+
+        //    p1.Id = 404;
+
+        //    context.Products.Add(p1);
+
+        //    context.SaveChanges();
+
+        //    //ACT
+        //    var result = _sut.VerifyProductImages();
+
+        //    //ASSERT
+        //    Assert.AreEqual(1, result.Result.Count);
+        //    Assert.AreEqual(404, result.Result[0]);
+        //}
+
+        //Flyttad från Product.cs i ShopAdmin:
+        //public void VerifyimageTest()
+        //{
+        //    var faltyImageProducts = _productService.VerifyProductImages();
+
+        //    var folderPath = Path.Combine("outfiles", "products");
+
+        //    var fullFilePath = Path.Combine(folderPath, "missingimages-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
+
+        //    Directory.CreateDirectory(folderPath);
+
+        //    using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
+        //    {
+        //        foreach (var product in faltyImageProducts.Result)
+        //        {
+        //            streamWriter.WriteLine(product.Id);
+        //        }
+        //    }
+        //}
+
 
         [TestMethod]
         public void CheckCategories_Should_Return_c3_CategoryName()
@@ -106,6 +152,9 @@ namespace ShopGeneralTests.Services
         public void Any_Image_url_should_return_not_found_and_return_product_id_list()
         {
             //ARRANGE
+
+            //var mockProtected = _msgHandler.Protected();
+
             Fixture fixture = new Fixture();
             Product p1 = fixture.Create<Product>();
             p1.Id = 1;
@@ -132,6 +181,24 @@ namespace ShopGeneralTests.Services
             //ASSERT
             Assert.AreEqual(1, result.Result[0]);
 
+
+
+            //ASSERT
+            //Assert.Fail();
+
+        }
+
+
+        [TestMethod]
+        public void If_ProductList_Contain_No_Products_Return_No_Products_In_Database()
+        {
+            var obj = new Product();
+            context.Products.Add(obj);
+            context.SaveChanges();
+
+            var result = _sut.GetAllProductsOrDefault();
+
+            Assert.AreEqual(null, result.Count);
         }
 
     }

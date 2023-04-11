@@ -7,11 +7,13 @@ namespace ShopAdmin.Commands
     {
         private readonly IProductService _productService;
         private readonly IReportService _reportService;
+        private readonly IFileOutputService _fileOutputService;
 
-        public Categorie(IProductService productService, IReportService reportService)
+        public Categorie(IProductService productService, IReportService reportService, IFileOutputService fileOutputService)
         {
             _productService = productService;
             _reportService = reportService;
+            _fileOutputService = fileOutputService;
         }
 
         public void Checkempty()
@@ -19,16 +21,10 @@ namespace ShopAdmin.Commands
             var result = _productService.CheckCategories();
             var report = _reportService.JsonReport(result);
 
+            var folderName = "category";
+            var fileName = "missingproducts-";
 
-            var folderPath = Path.Combine("outfiles\\category\\");
-            var fullFilePath = Path.Combine(folderPath, "missingproducts-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
-            Directory.CreateDirectory(folderPath);
-
-            using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
-            {
-                streamWriter.Write(report);
-            }
-
+            _fileOutputService.FileOutput(report, folderName, fileName);
         }
     }
 }

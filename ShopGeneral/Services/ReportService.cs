@@ -13,6 +13,13 @@ namespace ShopGeneral.Services
             return newtonCompleteJson;
         }
 
+        public string JsonReport(List<int> images)
+        {
+            var newtonCompleteJson = JsonConvert.SerializeObject(new {images});
+            return newtonCompleteJson;
+        }
+
+
         public string JsonReport(List<string> strings)
         {
             var newtonCompleteJson = JsonConvert.SerializeObject(new { strings });
@@ -24,6 +31,7 @@ namespace ShopGeneral.Services
             var newtonCompleteJson = JsonConvert.SerializeObject(new { UnusedCategories = categories });
             return newtonCompleteJson;
         }
+
 
 
     }
