@@ -34,8 +34,7 @@ builder.ConfigureServices((ctx, services) =>
     services.AddTransient<DataInitializer>();
     services.Configure<MailSettings>(ctx.Configuration.GetSection(nameof(MailSettings)));
     services.AddTransient<IMailService, MailService>();
-    
- 
+    services.AddTransient<IFileOutputService, FileOutputService>();
 
     // Using Cysharp/ZLogger for logging to file
     //services.AddLogging(logging =>

@@ -1,4 +1,4 @@
-﻿using ShopGeneral.Data;
+using ShopGeneral.Data;
 using Newtonsoft.Json;
 
 namespace ShopGeneral.Services
@@ -12,6 +12,13 @@ namespace ShopGeneral.Services
 
             return newtonCompleteJson;
         }
+
+        public string JsonReport(List<int> images)
+        {
+            var newtonCompleteJson = JsonConvert.SerializeObject(new {images});
+            return newtonCompleteJson;
+        }
+
 
         public string JsonReport(List<string> strings)
         {
@@ -30,5 +37,6 @@ namespace ShopGeneral.Services
             var newtonCompleteJson = JsonConvert.SerializeObject(new { Ids });
             return newtonCompleteJson;
         }
+
     }
 }
