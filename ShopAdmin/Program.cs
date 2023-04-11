@@ -29,13 +29,14 @@ builder.ConfigureServices((ctx, services) =>
     services.AddTransient<IProductService, ProductService>();
     services.AddTransient<ICategoryService, CategoryService>();
     services.AddTransient<IManufacturerService, ManufacturerService>();
+    services.AddTransient<IRomanService, RomanService>();
     services.AddAutoMapper(typeof(Program));
     services.AddAutoMapper(typeof(ProductProfile));
     services.AddTransient<DataInitializer>();
     services.Configure<MailSettings>(ctx.Configuration.GetSection(nameof(MailSettings)));
     services.AddTransient<IMailService, MailService>();
-    
- 
+    services.AddTransient<IFileOutputService, FileOutputService>();
+
 
     // Using Cysharp/ZLogger for logging to file
     //services.AddLogging(logging =>
