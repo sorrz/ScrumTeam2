@@ -1,9 +1,5 @@
 {
   "profiles": {
-    "WSL": {
-      "commandName": "WSL2",
-      "distributionName": ""
-    },
     "product export --to pricerunner": {
       "commandName": "Project",
       "commandLineArgs": "product export --to pricerunner"
