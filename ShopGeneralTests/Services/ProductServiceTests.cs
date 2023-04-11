@@ -7,6 +7,7 @@ using Moq;
 using ShopGeneral.Data;
 using ShopGeneral.Services;
 using Moq.Protected;
+using System.Net;
 
 namespace ShopGeneralTests.Services
 {
@@ -19,17 +20,12 @@ namespace ShopGeneralTests.Services
         private Mock<IPricingService> _pricingService;
         private Mock<HttpMessageHandler> _msgHandler;
 
-        public ProductServiceTests()
-        {
-            _mapper = new Mock<IMapper>();
-            _pricingService = new Mock<IPricingService>();
-        }
-
-
         [TestInitialize]
         public void Init()
         {
             _msgHandler = new Mock<HttpMessageHandler>();
+            _mapper = new Mock<IMapper>();
+            _pricingService = new Mock<IPricingService>();
 
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
@@ -39,15 +35,15 @@ namespace ShopGeneralTests.Services
             context = new ApplicationDbContext(contextOptions);
             context.Database.EnsureCreated();
 
+
             _sut = new ProductService(context, _pricingService.Object, _mapper.Object);
+
 
         }
 
         [TestMethod]
         public void Should_Return_Correct_Count_and_Sorting()
         {
-
-
             //ARR
             Fixture fixture = new Fixture();
             Product p1 = fixture.Create<Product>();
@@ -153,12 +149,37 @@ namespace ShopGeneralTests.Services
         }
         
         [TestMethod]
-        public void VerifyProductImagesTest()
+        public void Any_Image_url_should_return_not_found_and_return_product_id_list()
         {
             //ARRANGE
+
             //var mockProtected = _msgHandler.Protected();
 
+            Fixture fixture = new Fixture();
+            Product p1 = fixture.Create<Product>();
+            p1.Id = 1;
+            fixture.Inject(new UriScheme("http"));
+            p1.ImageUrl = fixture.Create<Uri>().AbsoluteUri;
+            context.Products.Add(p1);
+            context.SaveChanges();
 
+            var mockedProtected = _msgHandler.Protected();
+            var setupHttpRequest = mockedProtected.Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>()
+                );
+            var httpMockedResponse =
+                setupHttpRequest.ReturnsAsync(new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.NotFound
+                });
+
+            //ACT
+            var result = _sut.VerifyProductImages();
+
+            //ASSERT
+            Assert.AreEqual(1, result.Result[0]);
 
 
 
