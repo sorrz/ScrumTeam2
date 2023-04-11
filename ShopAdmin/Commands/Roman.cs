@@ -23,6 +23,7 @@ namespace ShopAdmin.Commands
             Console.WriteLine(result);
             Console.ReadKey();
         }
+
         public void Toroman()
         {
             var testNumber = 2023;

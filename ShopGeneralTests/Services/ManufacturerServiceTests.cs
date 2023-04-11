@@ -1,12 +1,9 @@
 ﻿using AutoFixture;
-using AutoMapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ShopAdmin.Configuration;
-using ShopAdmin.Services;
 using ShopGeneral.Data;
 using ShopGeneral.Services;
 

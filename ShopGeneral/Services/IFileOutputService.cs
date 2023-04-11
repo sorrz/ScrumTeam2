@@ -9,6 +9,6 @@ namespace ShopGeneral.Services
 {
     public interface IFileOutputService
     {
-        public void FileOutput(string output, string folderName, string fileName);
+        public void FileOutput(string output, string folderName, string fileName, string fileEnding);
     }
 }

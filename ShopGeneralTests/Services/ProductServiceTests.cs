@@ -9,6 +9,7 @@ using Moq.Protected;
 using System.Net;
 using MailKit;
 using Newtonsoft.Json;
+using System.Xml;
 
 namespace ShopGeneralTests.Services
 {
@@ -79,49 +80,6 @@ namespace ShopGeneralTests.Services
 
         }
 
-
-        //[TestMethod()]
-        //public void VerifyProductImagesTest()
-        //{
-        //    //ARRANGE
-        //    Fixture fixture = new();
-        //    Product p1 = fixture.Create<Product>();
-
-        //    p1.Id = 404;
-
-        //    context.Products.Add(p1);
-
-        //    context.SaveChanges();
-
-        //    //ACT
-        //    var result = _sut.VerifyProductImages();
-
-        //    //ASSERT
-        //    Assert.AreEqual(1, result.Result.Count);
-        //    Assert.AreEqual(404, result.Result[0]);
-        //}
-
-        //Flyttad från Product.cs i ShopAdmin:
-        //public void VerifyimageTest()
-        //{
-        //    var faltyImageProducts = _productService.VerifyProductImages();
-
-        //    var folderPath = Path.Combine("outfiles", "products");
-
-        //    var fullFilePath = Path.Combine(folderPath, "missingimages-" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
-
-        //    Directory.CreateDirectory(folderPath);
-
-        //    using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
-        //    {
-        //        foreach (var product in faltyImageProducts.Result)
-        //        {
-        //            streamWriter.WriteLine(product.Id);
-        //        }
-        //    }
-        //}
-
-
         [TestMethod]
         public void CheckCategories_Should_Return_c3_CategoryName()
         {
@@ -160,9 +118,6 @@ namespace ShopGeneralTests.Services
         {
 
             //ARRANGE
-
-            //var mockProtected = _msgHandler.Protected();
-
             Fixture fixture = new Fixture();
             Product p1 = fixture.Create<Product>();
             p1.Id = 1;
@@ -187,25 +142,18 @@ namespace ShopGeneralTests.Services
 
             //ASSERT
             Assert.AreEqual(1, result.Result[0]);
-
-
-
-            //ASSERT
-            //Assert.Fail();
-
         }
 
 
         [TestMethod]
         public void If_ProductList_Contain_No_Products_Return_No_Products_In_Database()
         {
-            var obj = new Product();
-            context.Products.Add(obj);
+            //ARR
             context.SaveChanges();
-
+            //ACT
             var result = _sut.GetAllProductsOrDefault();
-
-            Assert.AreEqual(null, result.Count);
+            //ASS
+            Assert.AreEqual(0, result.Count);
         }
 
         [TestMethod]
@@ -229,10 +177,16 @@ namespace ShopGeneralTests.Services
             //ACT
             var result = _sut.JsonToXml(input);
 
-
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(result[0]);
 
             //ASSERT
-            //Assert.IsNotNull(result);
+            var xml = doc.GetElementsByTagName("Id");
+            var xmlID = xml[0].InnerXml;
+            var jsonID = p1.Id.ToString();
+
+            Assert.AreEqual(jsonID, xmlID);
+            Assert.IsNotNull(result);
         }
 
     }

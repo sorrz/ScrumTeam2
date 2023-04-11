@@ -9,7 +9,6 @@ public class ProductServiceModel
     public int ManufacturerId { get; set; }
     public string ManufacturerName { get; set; }
     public string ImageUrl { get; set; }
-
     public int Price { get; set; }
     public int BasePrice { get; set; }
     public DateTime AddedUtc { get; set; }

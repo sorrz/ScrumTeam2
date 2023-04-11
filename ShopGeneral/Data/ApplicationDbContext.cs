@@ -14,6 +14,5 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<Manufacturer> Manufacturers { get; set; }
     public DbSet<Agreement> Agreements { get; set; }
-
     public DbSet<UserAgreements> UserAgreements { get; set; }
 }
