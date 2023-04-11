@@ -1,5 +1,6 @@
 ﻿using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Context;
+using System.Drawing;
 
 namespace ShopGeneral.Services;
 
@@ -10,4 +11,6 @@ public interface IProductService
     public List<Category> CheckCategories();
     public Task<List<int>> VerifyProductImages();
     public List<string> JsonToXml(List<string> JsonInput);
+    public System.Drawing.Image GetImageFromUrl(string inputUrl);
+    public System.Drawing.Image ResizeImage(Image image, Size size);
 }

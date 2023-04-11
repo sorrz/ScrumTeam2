@@ -159,8 +159,6 @@ namespace ShopGeneralTests.Services
         public void Any_Image_url_should_return_not_found_and_return_product_id_list()
         {
 
-            // TODO Wors with a real adress as it'll check for it! Mock not working as intended ?!
-
             //ARRANGE
 
             //var mockProtected = _msgHandler.Protected();
@@ -168,7 +166,6 @@ namespace ShopGeneralTests.Services
             Fixture fixture = new Fixture();
             Product p1 = fixture.Create<Product>();
             p1.Id = 1;
-            //fixture.Inject(new UriScheme("http://www.google.se/image004.jpg"));
             p1.ImageUrl = "http://www.google.se/image004.jpg";
             context.Products.Add(p1);
             context.SaveChanges();
@@ -225,16 +222,17 @@ namespace ShopGeneralTests.Services
             var products = new List<Product>();
             products.Add(p1);
 
+            List<string> input = new();
             var newtonCompleteJson = JsonConvert.SerializeObject(new { Products = products });
-
+            input.Add(newtonCompleteJson);
 
             //ACT
-            //var result = _sut.JsonToXml(newtonCompleteJson);
+            var result = _sut.JsonToXml(input);
+
 
 
             //ASSERT
             //Assert.IsNotNull(result);
-            //Assert.AreEqual(p1.Id, result.Contains("1232435"));
         }
 
     }

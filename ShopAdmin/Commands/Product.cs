@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+
 namespace ShopAdmin.Commands
 {
     public class Product : ConsoleAppBase
@@ -25,20 +26,21 @@ namespace ShopAdmin.Commands
             _fileOutputService = fileOutputService;
         }
 
-        public void Export()
+
+        public void Export(string to) // Command is called using "product export --to=pricerunner"
+
         {
             var listOfProducts = _productService.GetAllProductsOrDefault();
             var report = _reportService.JsonReport(listOfProducts);
 
-            var folderName = "pricerunner";
-            var fileName = "";
+            var folderName = to;
+            var fileName = DateTime.Now.ToString("yyyyMMdd") + ".txt";
 
             _fileOutputService.FileOutput(report, folderName, fileName);
         }
-        public void ExportXML(string to)
+        public void ExportXML(string to) // Command is called using "product exportxml --to=pricerunner"
         {
             var listOfProducts = _productService.GetAllProductsOrDefault();
-            // Report Service List of Products -> List of Strings
             var strings = _reportService.productToStringList(listOfProducts);
             var xmlExport = _productService.JsonToXml(strings);
             var report = _reportService.JsonReport(xmlExport);
@@ -69,5 +71,23 @@ namespace ShopAdmin.Commands
             _fileOutputService.FileOutput(report, folderName, fileName);
         }
 
+
+        public void Thumbnail(string folder) // Command is called using "product thumbnail --folder=c:\temp\bilder"
+        {
+            var listOfUrls = _productService.GetAllProductsOrDefault()
+                .Select(e => e.ImageUrl).ToList();
+            
+            var i = 1;
+            foreach (var imageURL in listOfUrls)
+            {
+                var image = _productService.GetImageFromUrl(imageURL);
+                if (image == null) continue; 
+                var thumbnail = _productService.ResizeImage(image, new System.Drawing.Size(100, 100));
+                string fileName = Path.Combine(folder, $"image{i}" + ".png");
+                thumbnail.Save(fileName);
+                i++;
+            }
+
+        }
     }
 }

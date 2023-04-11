@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
-using Bogus.Bson;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Math.EC.Rfc7748;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Context;
 using System.Net;
-using System.Text;
-using System.Xml.Serialization;
 using System.Xml;
-using System.Text.Json;
-using Microsoft.VisualBasic;
 using Newtonsoft.Json;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace ShopGeneral.Services;
 
@@ -42,7 +38,6 @@ public class ProductService : IProductService
 
     public async Task<List<int>> VerifyProductImages()
     {
-        //
         var products = _context.Products.ToList();
         List<int> productImageNotFound = new();
         _httpClient = new HttpClient();
@@ -84,18 +79,67 @@ public class ProductService : IProductService
     public List<string> JsonToXml(List<string> JsonInput)
     {
         List<string> xmlString = new();
-        //if (JsonInput != null) return null;
-        //XmlDocument doc = new();
+        XmlDocument doc = new();
+
         foreach (var item in JsonInput)
         {
-            XmlDocument doc = (XmlDocument)JsonConvert.DeserializeXmlNode(item);
-            var x = doc.InnerXml.ToString();
-            xmlString.Add(x);
-            doc.RemoveAll(); // Ska fixas
+            doc = JsonConvert.DeserializeXmlNode(item);
+            xmlString.Add(doc.InnerXml.ToString());
         }
 
         return xmlString;
     }
 
+    public Image GetImageFromUrl(string urlInput)
+    {
+        Image image = null;
+
+        try
+        {
+
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(urlInput);
+            webRequest.AllowWriteStreamBuffering = true;
+            webRequest.Timeout = 30000;
+
+            WebResponse webResponse = webRequest.GetResponse();
+            Stream stream = webResponse.GetResponseStream();
+            image = Image.FromStream(stream);
+            webResponse.Close();
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+        return image;
+    }
+
+    public Image ResizeImage(Image image, Size size)
+    {
+        // Entry Input
+        var sourceWidth = image.Width;
+        var sourceHeight = image.Height;
+        float percentX = 0;
+        var percentW = (float)size.Width / sourceWidth;
+        var percentH = (float)size.Height / sourceHeight;
+        // Calc for new desired Size
+        if (percentH < percentW)
+            percentX = percentH;
+        else
+            percentX = percentW;
+
+        // New output 
+        int destWidth = (int)(sourceWidth * percentX);
+        int destHeight = (int)(sourceHeight * percentX);
+
+        Bitmap thumbnail = new Bitmap(destWidth, destHeight);
+        Graphics g = Graphics.FromImage(thumbnail);
+        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+        // Draw Image to Thumbnail Var
+        g.DrawImage(image, 0, 0, destWidth, destHeight);
+        g.Dispose();
+
+        return thumbnail;
+    }
 }
 
