@@ -19,19 +19,10 @@ namespace ShopGeneralTests.Services
         private Mock<IPricingService> _pricingService;
         private Mock<HttpMessageHandler> _msgHandler;
 
-        //Testar för branch UnitTestP1.
-        private Mock<IFileOutputService> _fileOutputService;
-        private FileOutputService _fileOutput;
-        private Mock<IReportService> _reportService;
-
         public ProductServiceTests()
         {
             _mapper = new Mock<IMapper>();
             _pricingService = new Mock<IPricingService>();
-
-            //Testar för branch UnitTestP1.
-            _fileOutputService = new Mock<IFileOutputService>();
-            _reportService = new Mock<IReportService>();
         }
 
 
@@ -50,8 +41,6 @@ namespace ShopGeneralTests.Services
 
             _sut = new ProductService(context, _pricingService.Object, _mapper.Object);
 
-            //Testar för branch UnitTestP1.
-            //_fileOutput = new FileOutputService(_fileOutput);
         }
 
         [TestMethod]
@@ -179,8 +168,6 @@ namespace ShopGeneralTests.Services
         }
 
 
-
-        /* UnitTestP1 ideas */
         [TestMethod]
         public void If_ProductList_Contain_No_Products_Return_No_Products_In_Database()
         {
@@ -191,39 +178,6 @@ namespace ShopGeneralTests.Services
             var result = _sut.GetAllProductsOrDefault();
 
             Assert.AreEqual(null, result.Count);
-        }
-
-        //Denna kanske inte behövs?
-        //Tom fil bör ju inte resultera i fel då det beror på om produkter/priser etc finns?
-        [TestMethod]
-        public void If_File_Is_Empty_Return_Error_File_Is_Empty()
-        {
-
-        }
-
-        //Code for confirmation of overwrite when commando is used?
-        [TestMethod]
-        public void If_Folder_Already_Contain_A_File_Created_Today_Return_File_Already_Created()
-        {
-            //ARRANGE
-
-            //ACT
-
-            //ASSERT
-        }
-
-
-        //If using a command does not generate a file.
-        [TestMethod]
-        public void If_File_Has_Not_Been_Created_Should_Return_Error_No_File_Created()
-        {
-            //ARRANGE
-
-            //ACT
-            //_fileOutputService.FileOutput(report, folderName, fileName);
-
-            //ASSERT
-
         }
 
     }
