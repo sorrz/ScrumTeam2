@@ -23,8 +23,9 @@ namespace ShopAdmin.Commands
 
             var folderName = "category";
             var fileName = "missingproducts-";
+            var fileEnding = ".txt";
 
-            _fileOutputService.FileOutput(report, folderName, fileName);
+            _fileOutputService.FileOutput(report, folderName, fileName, fileEnding);
         }
     }
 }

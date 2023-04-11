@@ -93,7 +93,6 @@ public class ProductService : IProductService
     public Image GetImageFromUrl(string urlInput)
     {
         Image image = null;
-
         try
         {
 
@@ -115,19 +114,16 @@ public class ProductService : IProductService
 
     public Image ResizeImage(Image image, Size size)
     {
-        // Entry Input
         var sourceWidth = image.Width;
         var sourceHeight = image.Height;
         float percentX = 0;
         var percentW = (float)size.Width / sourceWidth;
         var percentH = (float)size.Height / sourceHeight;
-        // Calc for new desired Size
         if (percentH < percentW)
             percentX = percentH;
         else
             percentX = percentW;
 
-        // New output 
         int destWidth = (int)(sourceWidth * percentX);
         int destHeight = (int)(sourceHeight * percentX);
 
@@ -135,7 +131,6 @@ public class ProductService : IProductService
         Graphics g = Graphics.FromImage(thumbnail);
         g.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-        // Draw Image to Thumbnail Var
         g.DrawImage(image, 0, 0, destWidth, destHeight);
         g.Dispose();
 

@@ -41,8 +41,6 @@ namespace ShopAdmin.Commands
                         m._textBody
                         ), ct).Wait()
                 );
-            //------- ReadKey -------- 
-            //Console.ReadKey(true);
         }
     }
 }

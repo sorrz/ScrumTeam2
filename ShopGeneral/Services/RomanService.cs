@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace ShopGeneral.Services
 {
     public class RomanService : IRomanService
@@ -71,7 +66,7 @@ namespace ShopGeneral.Services
         {
             var romanList = roman.ToList();
             var counter = 0;
-            var total = 0;
+            int? total = 0;
             List<int> numberList = new List<int>();
             romanList.ForEach(r =>
             {
@@ -79,7 +74,6 @@ namespace ShopGeneral.Services
                 {
                     numberList.Add(value);
                 }
-                //else statment setting total to null, whitch checks below and return null from method!
             });
             numberList.ForEach(n =>
             {
@@ -113,7 +107,6 @@ namespace ShopGeneral.Services
             var listOfNumbers = number.ToString().ToList();
             List<string> RomanNumber = new List<string>();
 
-            var counter = 0;
             listOfNumbers.Reverse();
             for (int i = 0; i < listOfNumbers.Count; i++)
             {

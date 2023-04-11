@@ -9,16 +9,8 @@ namespace ShopGeneral.Services
         public string JsonReport(List<Product> products)
         {
             var newtonCompleteJson = JsonConvert.SerializeObject(new { Products = products, Total = products.Count, Skip = 0m, Limit = 0 });
-
             return newtonCompleteJson;
         }
-
-        public string JsonReport(List<int> images)
-        {
-            var newtonCompleteJson = JsonConvert.SerializeObject(new {images});
-            return newtonCompleteJson;
-        }
-
 
         public string JsonReport(List<string> strings)
         {
@@ -47,8 +39,6 @@ namespace ShopGeneral.Services
                 var newtonCompleteJson = JsonConvert.SerializeObject(new { product });
                 strings.Add(newtonCompleteJson);
             }
-           
-
             return strings;
         }
 

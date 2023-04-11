@@ -34,10 +34,12 @@ namespace ShopAdmin.Commands
             var report = _reportService.JsonReport(listOfProducts);
 
             var folderName = to;
-            var fileName = DateTime.Now.ToString("yyyyMMdd") + ".txt";
+            var fileName = "";
+            var fileEnding = ".txt";
 
-            _fileOutputService.FileOutput(report, folderName, fileName);
+            _fileOutputService.FileOutput(report, folderName, fileName, fileEnding);
         }
+
         public void ExportXML(string to) // Command is called using "product exportxml --to=pricerunner"
         {
             var listOfProducts = _productService.GetAllProductsOrDefault();
@@ -45,19 +47,11 @@ namespace ShopAdmin.Commands
             var xmlExport = _productService.JsonToXml(strings);
             var report = _reportService.JsonReport(xmlExport);
 
+            var folderName = to;
+            var fileName = "";
+            var fileEnding = ".xml";
 
-            var folderPath = Path.Combine("outfiles", to);
-
-            var fullFilePath = Path.Combine(folderPath, DateTime.Now.ToString("yyyyMMdd") + ".xml");
-
-            Directory.CreateDirectory(folderPath);
-
-
-            using (StreamWriter streamWriter = new StreamWriter(fullFilePath))
-            {
-                streamWriter.Write(report);
-            }
-
+            _fileOutputService.FileOutput(report, folderName, fileName, fileEnding);
         }
 
         public void Verifyimage()
@@ -66,9 +60,10 @@ namespace ShopAdmin.Commands
             var report = _reportService.JsonReport(listOfMissingImages.Result);
 
             var folderName = "products";
-            var fileName = "missingimages-";
+            var fileName = $"missingimages-";
+            var filEnding = ".txt";
 
-            _fileOutputService.FileOutput(report, folderName, fileName);
+            _fileOutputService.FileOutput(report, folderName, fileName, filEnding);
         }
 
 
