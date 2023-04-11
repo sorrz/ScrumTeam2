@@ -1,9 +1,16 @@
 ﻿using AutoMapper;
+using Bogus.Bson;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Math.EC.Rfc7748;
 using ShopGeneral.Data;
 using ShopGeneral.Infrastructure.Context;
 using System.Net;
+using System.Text;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Text.Json;
+using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 
 namespace ShopGeneral.Services;
 
@@ -74,6 +81,21 @@ public class ProductService : IProductService
         return result;
     }
 
+    public List<string> JsonToXml(List<string> JsonInput)
+    {
+        List<string> xmlString = new();
+        //if (JsonInput != null) return null;
+        //XmlDocument doc = new();
+        foreach (var item in JsonInput)
+        {
+            XmlDocument doc = (XmlDocument)JsonConvert.DeserializeXmlNode(item);
+            var x = doc.InnerXml.ToString();
+            xmlString.Add(x);
+            doc.RemoveAll(); // Ska fixas
+        }
+
+        return xmlString;
+    }
 
 }
 

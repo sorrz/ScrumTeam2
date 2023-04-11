@@ -8,6 +8,7 @@ using ShopGeneral.Services;
 using Moq.Protected;
 using System.Net;
 using MailKit;
+using Newtonsoft.Json;
 
 namespace ShopGeneralTests.Services
 {
@@ -208,6 +209,32 @@ namespace ShopGeneralTests.Services
             var result = _sut.GetAllProductsOrDefault();
 
             Assert.AreEqual(null, result.Count);
+        }
+
+        [TestMethod]
+        public void Product_in_JSON_Format_Should_Return_a_xml_output()
+        {
+
+            //ARRANGE
+            Fixture fixture = new Fixture();
+            Product p1 = fixture.Create<Product>();
+            p1.Id = 1232435;
+            context.Products.Add(p1);
+            context.SaveChanges();
+
+            var products = new List<Product>();
+            products.Add(p1);
+
+            var newtonCompleteJson = JsonConvert.SerializeObject(new { Products = products });
+
+
+            //ACT
+            //var result = _sut.JsonToXml(newtonCompleteJson);
+
+
+            //ASSERT
+            //Assert.IsNotNull(result);
+            //Assert.AreEqual(p1.Id, result.Contains("1232435"));
         }
 
     }

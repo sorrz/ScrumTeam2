@@ -38,5 +38,21 @@ namespace ShopGeneral.Services
             return newtonCompleteJson;
         }
 
+
+        public List<string> productToStringList(List<Product> products)
+        {
+            List<string> strings = new();
+            foreach (var product in products)
+            {
+                var newtonCompleteJson = JsonConvert.SerializeObject(new 
+                { Products = products, Total = products.Count, Skip = 0m, Limit = 0 });
+
+                strings.Add(newtonCompleteJson);
+            }
+           
+
+            return strings;
+        }
+
     }
 }
